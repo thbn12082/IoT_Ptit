@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Home Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+</head>
+
+<body>
+    <div class="navbar">
+        <a href="#" class="active">Dashboard</a>
+        <a href="#">Data Sensor</a>
+        <a href="#">Action History</a>
+        <a href="#">Profile</a>
+    </div>
+
+    <div class="container">
+        <h1>Smart Home Dashboard</h1>
+
+        <div class="sensor-cards">
+            <div class="sensor-card">
+                <div style="display: flex;">
+                    <div class="sensor-icon temperature">🌡️</div>
+                    <div class="sensor-label">Temperature (°C)</div>
+                </div>
+
+                <div class="sensor-value">
+                    <div class="circle-progress" id="temperature-gauge">
+                        <span id="temperature-value">0</span>
+                    </div>
+                    <!--  -->
+                </div>
+            </div>
+
+            <div class="sensor-card">
+                <div style="display: flex;">
+                    <div class="sensor-icon humidity">💧</div>
+                    <span class="sensor-label">Humidity (%)</span>
+                </div>
+
+                <div class="sensor-value">
+                    <div class="circle-progress" id="humidity-gauge">
+                        <span id="humidity-value">0</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="sensor-card">
+                <div style="display: flex;">
+                    <div class="sensor-icon light">☀️</div>
+                    <span class="sensor-label">Light (lux)</span>
+                </div>
+
+                <div class="sensor-value">
+                    <div class="circle-progress" id="light-gauge">
+                        <span id="light-value">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sensor-card controls">
+                <h3>Device Controls</h3>
+                <div class="control-buttons">
+                    <div class="control-item">
+                        <span>LED 1</span>
+                        <label class="switch" for="led1">
+                            <input type="checkbox" id="led1" aria-label="Toggle LED 1">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="control-item">
+                        <span>LED 2</span>
+                        <label class="switch" for="led2">
+                            <input type="checkbox" id="led2" aria-label="Toggle LED 2">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="control-item">
+                        <span>LED 3</span>
+                        <label class="switch" for="led3">
+                            <input type="checkbox" id="led3" aria-label="Toggle LED 3">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="charts">
+            <div class="chart-container">
+                <h3>Temperature & Humidity</h3>
+                <canvas id="tempHumChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>Light Intensity</h3>
+                <canvas id="lightChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

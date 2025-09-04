@@ -29,15 +29,15 @@ public class MqttConfig {
 
     @Bean
     public MessageProducer inbound() {
-        MqttPahoMessageDrivenChannelAdapter adapter =
-                new MqttPahoMessageDrivenChannelAdapter(
-                        clientId + "_inbound",
-                        mqttClientFactory(),
-                        // Telemetry cũ
-                        "home/sensors",
-                        // NEW: subscribe trạng thái LED với wildcard
-                        "home/devices/+/led/+/state"
-                );
+        MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter(
+                clientId + "_inbound",
+                mqttClientFactory(),
+                "home/sensors", // Topic nhận dữ liệu sensor
+                "home/devices/+/led/+/state", // Topic nhận trạng thái đèn từ tất cả thiết bị
+                "home/lamps/1", // Topic nhận lệnh điều khiển LED 1
+                "home/lamps/2", // Topic nhận lệnh điều khiển LED 2
+                "home/lamps/3" // Topic nhận lệnh điều khiển LED 3
+        );
         adapter.setCompletionTimeout(5000);
         adapter.setConverter(new DefaultPahoMessageConverter());
         adapter.setQos(1);
@@ -50,7 +50,7 @@ public class MqttConfig {
         DefaultMqttPahoClientFactory factory = new DefaultMqttPahoClientFactory();
         MqttConnectOptions options = new MqttConnectOptions();
 
-        options.setServerURIs(new String[]{brokerUrl});
+        options.setServerURIs(new String[] { brokerUrl });
         options.setCleanSession(true);
         options.setConnectionTimeout(30);
         options.setKeepAliveInterval(60);
@@ -76,11 +76,9 @@ public class MqttConfig {
     @Bean
     @ServiceActivator(inputChannel = "mqttOutputChannel")
     public MessageHandler mqttOutbound() {
-        MqttPahoMessageHandler messageHandler =
-                new MqttPahoMessageHandler(
-                        clientId + "_outbound",
-                        mqttClientFactory()
-                );
+        MqttPahoMessageHandler messageHandler = new MqttPahoMessageHandler(
+                clientId + "_outbound",
+                mqttClientFactory());
 
         messageHandler.setAsync(true);
         messageHandler.setDefaultTopic("home/lamps");
@@ -88,6 +86,5 @@ public class MqttConfig {
 
         return messageHandler;
     }
-
 
 }

@@ -3,6 +3,7 @@ package com.example.iot_backend.service;
 import com.example.iot_backend.model.LedEvent;
 import com.example.iot_backend.model.SensorData;
 import com.example.iot_backend.repository.LedEventRepository;
+import com.example.iot_backend.gateway.MqttGateway;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -24,15 +25,18 @@ public class MqttService {
     private final SensorDataService sensorDataService;
     private final LedEventRepository ledEventRepository;
     private final WebSocketService webSocketService;
+    private final MqttGateway mqttGateway;
 
     public MqttService(DeviceService deviceService,
             SensorDataService sensorDataService,
             WebSocketService webSocketService,
-            LedEventRepository ledEventRepository) {
+            LedEventRepository ledEventRepository,
+            MqttGateway mqttGateway) {
         this.deviceService = deviceService;
         this.sensorDataService = sensorDataService;
         this.webSocketService = webSocketService;
         this.ledEventRepository = ledEventRepository;
+        this.mqttGateway = mqttGateway;
     }
 
     @ServiceActivator(inputChannel = "mqttInputChannel")
@@ -86,15 +90,15 @@ public class MqttService {
 
         } catch (Exception e) {
             logger.error("❌ Error handling MQTT message: {}", e.getMessage(), e);
-            throw e; // Re-throw để Spring Integration có thể xử lý
+            throw e;
         }
     }
 
     @Transactional
-    private void processLedStateMessage(int ledNumber, String mac, boolean state, String payload) throws Exception {
+    private void processLedStateMessage(int ledNumber, String mac, boolean state, String payload) {
         try {
-            logger.info("🔄 Processing LED {} STATE from ESP32 - MAC: {}, State: {}",
-                    ledNumber, mac, state ? "ON" : "OFF");
+            logger.info("🔄 Processing LED {} STATE from ESP32 - MAC: {}, State: {}", 
+                ledNumber, mac, state ? "ON" : "OFF");
 
             // Create and save LED event
             LedEvent stateEvent = new LedEvent();
@@ -122,48 +126,29 @@ public class MqttService {
             }
 
         } catch (Exception e) {
-            logger.error("❌ Error processing LED {} state message for device {}: {}",
-                    ledNumber, mac, e.getMessage(), e);
-            throw e; // Re-throw để transaction rollback
+            logger.error("❌ Error processing LED {} state message: {}", ledNumber, e.getMessage(), e);
+            throw e;
         }
     }
 
-    @Transactional
-    private void processLedCommandMessage(int ledNumber, boolean state) throws Exception {
+    private void processLedCommandMessage(int ledNumber, boolean state) {
         try {
-            logger.info("🔄 Processing LED {} COMMAND - Requested State: {}",
-                    ledNumber, state ? "ON" : "OFF");
+            logger.info("🔄 Processing LED {} COMMAND - New State: {}", 
+                ledNumber, state ? "ON" : "OFF");
 
-            // Create and save LED event for the command
-            LedEvent commandEvent = new LedEvent();
-            commandEvent.setDeviceMac("SYSTEM"); // Command originated from system
-            commandEvent.setDeviceName("System Command");
-            commandEvent.setLocation("Server");
-            commandEvent.setIsOnline(true);
-            commandEvent.setLastSeen(LocalDateTime.now());
-            commandEvent.setLedNumber(ledNumber);
-            commandEvent.setActionType("COMMAND");
-            commandEvent.setStateOn(state);
-            commandEvent.setTopic("home/lamps/" + ledNumber);
-            commandEvent.setPayload(state ? "1" : "0");
-            commandEvent.setSource("system");
+            // Send command to MQTT topic
+            mqttGateway.sendToMqtt("home/lamps/" + ledNumber, state ? "1" : "0");
 
-            LedEvent savedCommandEvent = ledEventRepository.save(commandEvent);
-            logger.info("✅ LED {} COMMAND saved: ID={}", ledNumber, savedCommandEvent.getId());
-
-            // WebSocket update for command acknowledgment
-            if (webSocketService != null) {
-                webSocketService.sendLedCommandAck(ledNumber, state);
-            }
+            logger.info("✅ LED {} command sent", ledNumber);
 
         } catch (Exception e) {
             logger.error("❌ Error processing LED {} command: {}", ledNumber, e.getMessage(), e);
-            throw e; // Re-throw để transaction rollback
+            throw e;
         }
     }
 
     @Transactional
-    private void processSensorData(String payload) throws Exception {
+    private void processSensorData(String payload) {
         try {
             JsonNode node = objectMapper.readTree(payload);
 
@@ -194,7 +179,7 @@ public class MqttService {
 
         } catch (Exception e) {
             logger.error("❌ Error processing sensor data: {}", e.getMessage(), e);
-            throw e; // Re-throw để transaction rollback
+            throw e;
         }
     }
 }

@@ -20,18 +20,23 @@ public class SensorData {
     @Column(name = "humidity")
     private Double humidity;
 
-    @NotNull
+    @Column(name = "lux")
+    private Integer lux;
+
+    @Column(name = "light_raw")
+    private Integer lightRaw;
+
     @Column(name = "light_level")
     private Integer lightLevel;
 
-    @Column(name = "sensor_status")
-    private String sensorStatus;
+    @Column(name = "sensor")
+    private String sensor;
 
-    @Column(name = "device_mac")
-    private String deviceMac;
+    @Column(name = "mac")
+    private String mac;
 
-    @Column(name = "device_uptime")
-    private Long deviceUptime;
+    @Column(name = "uptime")
+    private Integer uptime;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -42,41 +47,99 @@ public class SensorData {
     }
 
     // Constructor với parameters
-    public SensorData(Double temperature, Double humidity, Integer lightLevel,
-                      String sensorStatus, String deviceMac, Long deviceUptime) {
+    public SensorData(Double temperature, Double humidity, Integer lux,
+            Integer lightRaw, Integer lightLevel, String sensor, String mac, Integer uptime) {
         this.temperature = temperature;
         this.humidity = humidity;
+        this.lux = lux;
+        this.lightRaw = lightRaw;
         this.lightLevel = lightLevel;
-        this.sensorStatus = sensorStatus;
-        this.deviceMac = deviceMac;
-        this.deviceUptime = deviceUptime;
+        this.sensor = sensor;
+        this.mac = mac;
+        this.uptime = uptime;
         this.createdAt = LocalDateTime.now();
     }
 
     // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public Double getTemperature() { return temperature; }
-    public void setTemperature(Double temperature) { this.temperature = temperature; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public Double getHumidity() { return humidity; }
-    public void setHumidity(Double humidity) { this.humidity = humidity; }
+    public Double getTemperature() {
+        return temperature;
+    }
 
-    public Integer getLightLevel() { return lightLevel; }
-    public void setLightLevel(Integer lightLevel) { this.lightLevel = lightLevel; }
+    public void setTemperature(Double temperature) {
+        this.temperature = temperature;
+    }
 
-    public String getSensorStatus() { return sensorStatus; }
-    public void setSensorStatus(String sensorStatus) { this.sensorStatus = sensorStatus; }
+    public Double getHumidity() {
+        return humidity;
+    }
 
-    public String getDeviceMac() { return deviceMac; }
-    public void setDeviceMac(String deviceMac) { this.deviceMac = deviceMac; }
+    public void setHumidity(Double humidity) {
+        this.humidity = humidity;
+    }
 
-    public Long getDeviceUptime() { return deviceUptime; }
-    public void setDeviceUptime(Long deviceUptime) { this.deviceUptime = deviceUptime; }
+    public Integer getLux() {
+        return lux;
+    }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public void setLux(Integer lux) {
+        this.lux = lux;
+    }
+
+    public Integer getLightRaw() {
+        return lightRaw;
+    }
+
+    public void setLightRaw(Integer lightRaw) {
+        this.lightRaw = lightRaw;
+    }
+
+    public Integer getLightLevel() {
+        return lightLevel;
+    }
+
+    public void setLightLevel(Integer lightLevel) {
+        this.lightLevel = lightLevel;
+    }
+
+    public String getSensor() {
+        return sensor;
+    }
+
+    public void setSensor(String sensor) {
+        this.sensor = sensor;
+    }
+
+    public String getMac() {
+        return mac;
+    }
+
+    public void setMac(String mac) {
+        this.mac = mac;
+    }
+
+    public Integer getUptime() {
+        return uptime;
+    }
+
+    public void setUptime(Integer uptime) {
+        this.uptime = uptime;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 
     @Override
     public String toString() {
@@ -84,9 +147,11 @@ public class SensorData {
                 "id=" + id +
                 ", temperature=" + temperature +
                 ", humidity=" + humidity +
-                ", lightLevel=" + lightLevel +
-                ", sensorStatus='" + sensorStatus + '\'' +
-                ", deviceMac='" + deviceMac + '\'' +
+                ", lux=" + lux +
+                ", lightRaw=" + lightRaw +
+                ", sensor='" + sensor + '\'' +
+                ", mac='" + mac + '\'' +
+                ", uptime=" + uptime +
                 ", createdAt=" + createdAt +
                 '}';
     }

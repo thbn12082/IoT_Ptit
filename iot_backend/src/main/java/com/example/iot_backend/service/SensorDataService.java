@@ -27,12 +27,12 @@ public class SensorDataService {
 
     // Lấy dữ liệu mới nhất (10 records)
     public List<SensorData> getLatestSensorData() {
-        return sensorDataRepository.findLatest10();
+        return sensorDataRepository.findTop10ByOrderByCreatedAtDesc();
     }
 
     // Lấy dữ liệu theo device MAC
-    public List<SensorData> getSensorDataByDevice(String deviceMac) {
-        return sensorDataRepository.findByDeviceMacOrderByCreatedAtDesc(deviceMac);
+    public List<SensorData> getSensorDataByDevice(String mac) {
+        return sensorDataRepository.findByMacOrderByCreatedAtDesc(mac);
     }
 
     // Lấy dữ liệu trong khoảng thời gian
@@ -58,7 +58,7 @@ public class SensorDataService {
 
     // Đếm records theo device
     public long getRecordCountByDevice(String deviceMac) {
-        return sensorDataRepository.countByDeviceMac(deviceMac);
+        return sensorDataRepository.countByMac(deviceMac);
     }
 
     // Xóa dữ liệu cũ (older than X days)

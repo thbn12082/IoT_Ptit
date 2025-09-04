@@ -23,7 +23,14 @@ public class WebSocketService {
         try {
             logger.info("📡 Sending sensor update via WebSocket: {}", sensorData.getId());
 
-            messagingTemplate.convertAndSend("/topic/sensors", sensorData);
+            // Tạo object theo định dạng mới cho dashboard
+            String dashboardData = String.format(
+                    "{\"temperature\": %.1f, \"humidity\": %.1f, \"light\": %d}",
+                    sensorData.getTemperature(),
+                    sensorData.getHumidity(),
+                    sensorData.getLightLevel());
+
+            messagingTemplate.convertAndSend("/topic/sensor-data", dashboardData);
 
         } catch (Exception e) {
             logger.error("❌ Error sending WebSocket update: {}", e.getMessage(), e);
@@ -51,6 +58,19 @@ public class WebSocketService {
 
         } catch (Exception e) {
             logger.error("❌ Error sending LED update: {}", e.getMessage(), e);
+        }
+    }
+
+    // Gửi xác nhận lệnh LED đã được xử lý
+    public void sendLedCommandAck(int ledNumber, boolean state) {
+        try {
+            String commandAck = "{\"ledNumber\":" + ledNumber + ",\"state\":" + state + ",\"status\":\"processed\"}";
+
+            messagingTemplate.convertAndSend("/topic/led-commands", commandAck);
+            logger.info("✅ Sent LED command acknowledgment - LED: {}, State: {}", ledNumber, state ? "ON" : "OFF");
+
+        } catch (Exception e) {
+            logger.error("❌ Error sending LED command acknowledgment: {}", e.getMessage(), e);
         }
     }
 }
