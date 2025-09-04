@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: iot-backend
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/iot
+    username: root
+    password: 0281  # Thay bằng password MySQL của bạn
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update  # Tự động tạo/cập nhật tables
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+
+# MQTT Configuration
+mqtt:
+  broker:
+    url: tcp://test.mosquitto.org:1883
+    client-id: SpringBootBackend
+    username:
+    password:
+  topics:
+    sensor-data: home/sensors
+    lamp-control: home/lamps/+
+    lamp-state: home/devices/+/led/+/state
+
+
+# Server Configuration
+server:
+  port: 8081
+
+# Logging
+logging:
+  level:
+    com.example.iotbackend: DEBUG
+    org.springframework.web: DEBUG
