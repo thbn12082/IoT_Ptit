@@ -20,20 +20,8 @@ public class SensorData {
     @Column(name = "humidity")
     private Double humidity;
 
-    @Column(name = "lux")
-    private Integer lux;
-
-    @Column(name = "light_raw")
-    private Integer lightRaw;
-
     @Column(name = "light_level")
     private Integer lightLevel;
-
-    @Column(name = "sensor")
-    private String sensor;
-
-    @Column(name = "mac")
-    private String mac;
 
     @Column(name = "uptime")
     private Integer uptime;
@@ -47,15 +35,10 @@ public class SensorData {
     }
 
     // Constructor với parameters
-    public SensorData(Double temperature, Double humidity, Integer lux,
-            Integer lightRaw, Integer lightLevel, String sensor, String mac, Integer uptime) {
+    public SensorData(Double temperature, Double humidity, Integer lightLevel, Integer uptime) {
         this.temperature = temperature;
         this.humidity = humidity;
-        this.lux = lux;
-        this.lightRaw = lightRaw;
         this.lightLevel = lightLevel;
-        this.sensor = sensor;
-        this.mac = mac;
         this.uptime = uptime;
         this.createdAt = LocalDateTime.now();
     }
@@ -85,44 +68,12 @@ public class SensorData {
         this.humidity = humidity;
     }
 
-    public Integer getLux() {
-        return lux;
-    }
-
-    public void setLux(Integer lux) {
-        this.lux = lux;
-    }
-
-    public Integer getLightRaw() {
-        return lightRaw;
-    }
-
-    public void setLightRaw(Integer lightRaw) {
-        this.lightRaw = lightRaw;
-    }
-
     public Integer getLightLevel() {
         return lightLevel;
     }
 
     public void setLightLevel(Integer lightLevel) {
         this.lightLevel = lightLevel;
-    }
-
-    public String getSensor() {
-        return sensor;
-    }
-
-    public void setSensor(String sensor) {
-        this.sensor = sensor;
-    }
-
-    public String getMac() {
-        return mac;
-    }
-
-    public void setMac(String mac) {
-        this.mac = mac;
     }
 
     public Integer getUptime() {
@@ -147,10 +98,6 @@ public class SensorData {
                 "id=" + id +
                 ", temperature=" + temperature +
                 ", humidity=" + humidity +
-                ", lux=" + lux +
-                ", lightRaw=" + lightRaw +
-                ", sensor='" + sensor + '\'' +
-                ", mac='" + mac + '\'' +
                 ", uptime=" + uptime +
                 ", createdAt=" + createdAt +
                 '}';

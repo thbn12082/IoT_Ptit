@@ -1,18 +1,18 @@
 package com.example.iot_backend.controller;
 
-import com.example.iot_backend.dto.DeviceInfo;
 import com.example.iot_backend.model.LedEvent;
 import com.example.iot_backend.service.DeviceService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.time.LocalDateTime;
 
 @RestController
-@RequestMapping("/api/devices")
+@RequestMapping("/api/leds")
 @CrossOrigin(origins = "*")
 public class DeviceController {
 
@@ -22,61 +22,58 @@ public class DeviceController {
         this.deviceService = deviceService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<DeviceInfo>> getAllDevices() {
-        return ResponseEntity.ok(deviceService.getAllDevices());
+    @GetMapping("/{ledNumber}/state")
+    public ResponseEntity<Boolean> getLedState(@PathVariable int ledNumber) {
+        Optional<Boolean> state = deviceService.getLedState(ledNumber);
+        return state.map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/{mac}")
-    public ResponseEntity<DeviceInfo> getDeviceByMac(@PathVariable String mac) {
-        DeviceInfo device = deviceService.getDeviceInfo(mac);
-        return device != null ? ResponseEntity.ok(device) : ResponseEntity.notFound().build();
+    @GetMapping("/{ledNumber}/history")
+    public ResponseEntity<List<LedEvent>> getLedHistory(@PathVariable int ledNumber) {
+        List<LedEvent> events = deviceService.getLedEvents(ledNumber);
+        return ResponseEntity.ok(events);
     }
-
-    @GetMapping("/online")
-    public ResponseEntity<List<DeviceInfo>> getOnlineDevices() {
-        return ResponseEntity.ok(deviceService.getOnlineDevices());
-    }
-
 
     @GetMapping("/stats")
     public ResponseEntity<?> getDeviceStats() {
-        long onlineCount = deviceService.countOnlineDevices();
-        long totalCount = deviceService.getAllDevices().size();
+        List<LedEvent> recentEvents = deviceService.getRecentEvents();
+        long activeLedsCount = recentEvents.stream()
+                .filter(LedEvent::getStateOn)
+                .map(LedEvent::getLedNumber)
+                .distinct()
+                .count();
 
         return ResponseEntity.ok(new Object() {
-            public final long online_devices = onlineCount;
-            public final long total_devices = totalCount;
-            public final double online_percentage = totalCount > 0 ? (double) onlineCount / totalCount * 100 : 0;
+            public final long active_leds = activeLedsCount;
+            public final int total_leds = 4; // Since we have 4 LEDs in our system
+            public final double active_percentage = (double) activeLedsCount / 4 * 100;
             public final String last_updated = LocalDateTime.now().toString();
         });
     }
 
-    // ✅ THÊM: API lấy events gần đây
+    // API to get all recent events
     @GetMapping("/recent-events")
-    public ResponseEntity<List<LedEvent>> getRecentEvents(@RequestParam(defaultValue = "60") int minutes) {
-        List<LedEvent> events = deviceService.getRecentEvents(minutes);
+    public ResponseEntity<List<LedEvent>> getRecentEvents() {
+        List<LedEvent> events = deviceService.getRecentEvents();
         return ResponseEntity.ok(events);
     }
 
-
-    // ✅ Trả về success message thay vì LedEvent
-    @PostMapping("/{mac}/led/{ledNumber}")
-    public ResponseEntity<Map<String, Object>> controlLed(
-            @PathVariable String mac,
+    // Return success message instead of LedEvent
+    @PostMapping("/{ledNumber}/control")
+    public ResponseEntity<Map<String, Object>> controlLedWithResponse(
             @PathVariable int ledNumber,
-            @RequestBody boolean state) {
+            @RequestParam boolean state) {
 
         try {
-            deviceService.controlLed(mac, ledNumber, state);
+            LedEvent event = deviceService.controlLed(ledNumber, state);
 
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
             response.put("message", String.format("LED%d %s command sent", ledNumber, state ? "ON" : "OFF"));
-            response.put("device_mac", mac);
             response.put("led_number", ledNumber);
             response.put("state", state);
-            response.put("timestamp", LocalDateTime.now());
+            response.put("timestamp", event.getCreatedAt());
 
             return ResponseEntity.ok(response);
 
@@ -87,9 +84,5 @@ public class DeviceController {
             return ResponseEntity.badRequest().body(error);
         }
     }
-
-    // ... Các endpoints khác giữ nguyên
-
-
 
 }

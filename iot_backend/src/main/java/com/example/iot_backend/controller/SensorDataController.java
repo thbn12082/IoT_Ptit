@@ -40,13 +40,6 @@ public class SensorDataController {
         return ResponseEntity.ok(data);
     }
 
-    // Lấy dữ liệu theo device MAC
-    @GetMapping("/device/{mac}")
-    public ResponseEntity<List<SensorData>> getSensorDataByDevice(@PathVariable String mac) {
-        List<SensorData> data = sensorDataService.getSensorDataByDevice(mac);
-        return ResponseEntity.ok(data);
-    }
-
     // Lấy dữ liệu trong khoảng thời gian
     @GetMapping("/range")
     public ResponseEntity<List<SensorData>> getSensorDataByDateRange(

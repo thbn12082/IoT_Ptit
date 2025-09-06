@@ -24,6 +24,12 @@ public class MqttConfig {
     @Value("${mqtt.broker.client-id}")
     private String clientId;
 
+    @Value("${mqtt.broker.username}")
+    private String username;
+
+    @Value("${mqtt.broker.password}")
+    private String password;
+
     @Value("${mqtt.topics.sensor-data}")
     private String sensorDataTopic;
 
@@ -51,6 +57,8 @@ public class MqttConfig {
         MqttConnectOptions options = new MqttConnectOptions();
 
         options.setServerURIs(new String[] { brokerUrl });
+        options.setUserName(username);
+        options.setPassword(password.toCharArray());
         options.setCleanSession(true);
         options.setConnectionTimeout(30);
         options.setKeepAliveInterval(60);

@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <div class="navbar">
+    <div class="navbar" style="background-color: rgb(69, 26, 168);">
         <a href="#" class="active">Dashboard</a>
         <a href="#">Data Sensor</a>
         <a href="#">Action History</a>
@@ -20,87 +20,94 @@
     </div>
 
     <div class="container">
-        <h1>Smart Home Dashboard</h1>
+        <header class="dashboard-header">
+            <h1>Smart Home Dashboard</h1>
+        </header>
 
-        <div class="sensor-cards">
-            <div class="sensor-card">
-                <div style="display: flex;">
-                    <div class="sensor-icon temperature">🌡️</div>
-                    <div class="sensor-label">Temperature (°C)</div>
-                </div>
-
-                <div class="sensor-value">
-                    <div class="circle-progress" id="temperature-gauge">
-                        <span id="temperature-value">0</span>
-                    </div>
-                    <!--  -->
-                </div>
-            </div>
-
-            <div class="sensor-card">
-                <div style="display: flex;">
-                    <div class="sensor-icon humidity">💧</div>
-                    <span class="sensor-label">Humidity (%)</span>
-                </div>
-
-                <div class="sensor-value">
-                    <div class="circle-progress" id="humidity-gauge">
-                        <span id="humidity-value">0</span>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="sensor-card">
-                <div style="display: flex;">
-                    <div class="sensor-icon light">☀️</div>
-                    <span class="sensor-label">Light (lux)</span>
-                </div>
-
-                <div class="sensor-value">
-                    <div class="circle-progress" id="light-gauge">
-                        <span id="light-value">0</span>
+        <div class="dashboard-grid">
+            <!-- Sensor Cards Section -->
+            <section class="sensor-cards">
+                <div class="sensor-card">
+                    <div class="sensor-circle temperature">
+                        <div class="sensor-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z" />
+                            </svg>
+                        </div>
+                        <div class="sensor-value" id="temperature-value">29</div>
+                        <div class="sensor-info">
+                            <div class="sensor-label">Temperature</div>
+                            <div class="sensor-range">0 - 50</div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="sensor-card controls">
-                <h3>Device Controls</h3>
-                <div class="control-buttons">
-                    <div class="control-item">
-                        <span>LED 1</span>
-                        <label class="switch" for="led1">
-                            <input type="checkbox" id="led1" aria-label="Toggle LED 1">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="control-item">
-                        <span>LED 2</span>
-                        <label class="switch" for="led2">
-                            <input type="checkbox" id="led2" aria-label="Toggle LED 2">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="control-item">
-                        <span>LED 3</span>
-                        <label class="switch" for="led3">
-                            <input type="checkbox" id="led3" aria-label="Toggle LED 3">
-                            <span class="slider"></span>
-                        </label>
+                <div class="sensor-card">
+                    <div class="sensor-circle humidity">
+                        <div class="sensor-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
+                            </svg>
+                        </div>
+                        <div class="sensor-value" id="humidity-value">47</div>
+                        <div class="sensor-info">
+                            <div class="sensor-label">Humidity</div>
+                            <div class="sensor-range">0 - 100</div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="charts">
-            <div class="chart-container">
-                <h3>Temperature & Humidity</h3>
-                <canvas id="tempHumChart"></canvas>
-            </div>
-            <div class="chart-container">
-                <h3>Light Intensity</h3>
-                <canvas id="lightChart"></canvas>
-            </div>
+                <div class="sensor-card">
+                    <div class="sensor-circle light">
+                        <div class="sensor-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="5" />
+                                <path
+                                    d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                            </svg>
+                        </div>
+                        <div class="sensor-value" id="light-value">100</div>
+                        <div class="sensor-info">
+                            <div class="sensor-label">Light</div>
+                            <div class="sensor-range">0 - 100</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Charts Section -->
+            <section class="charts-grid">
+                <div class="charts-main-column">
+                    <div class="chart-container temperature-chart">
+                        <h3>Temperature History</h3>
+                        <canvas id="temperatureChart"></canvas>
+                    </div>
+                    <div class="chart-container humidity-chart">
+                        <h3>Humidity History</h3>
+                        <canvas id="humidityChart"></canvas>
+                    </div>
+                </div>
+                <div class="charts-side-column">
+                    <div class="device-section">
+                        <h3>Device Controls</h3>
+                        <div class="device-grid">
+                            <button class="device-btn led-all">All LEDs</button>
+                            <button class="device-btn led-btn">LED 1</button>
+                            <button class="device-btn led-btn">LED 2</button>
+                            <button class="device-btn led-btn">LED 3</button>
+
+                        </div>
+                    </div>
+
+                    <div class="chart-container light-chart">
+                        <h3>Light Level History</h3>
+                        <canvas id="lightChart"></canvas>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
 

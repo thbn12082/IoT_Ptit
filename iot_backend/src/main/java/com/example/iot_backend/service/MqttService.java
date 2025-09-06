@@ -93,28 +93,15 @@ public class MqttService {
     @Transactional
     private void processLedStateMessage(int ledNumber, String mac, boolean state, String payload) throws Exception {
         try {
-            logger.info("🔄 Processing LED {} STATE from ESP32 - MAC: {}, State: {}",
-                    ledNumber, mac, state ? "ON" : "OFF");
+            logger.info("🔄 Processing LED {} STATE - State: {}", ledNumber, state ? "ON" : "OFF");
 
-            // Create and save LED event
+            // Create and save LED event with only essential information
             LedEvent stateEvent = new LedEvent();
-            stateEvent.setDeviceMac(mac);
-            stateEvent.setDeviceName("ESP32-" + mac);
-            stateEvent.setLocation("Unknown");
-            stateEvent.setIsOnline(true);
-            stateEvent.setLastSeen(LocalDateTime.now());
             stateEvent.setLedNumber(ledNumber);
-            stateEvent.setActionType("STATE");
             stateEvent.setStateOn(state);
-            stateEvent.setTopic("home/devices/" + mac + "/led/" + ledNumber + "/state");
-            stateEvent.setPayload(payload);
-            stateEvent.setSource("esp32");
 
             LedEvent savedStateEvent = ledEventRepository.save(stateEvent);
             logger.info("✅ ESP32 LED {} STATE saved: ID={}", ledNumber, savedStateEvent.getId());
-
-            // Update device status
-            deviceService.updateDeviceStatus(mac, true);
 
             // Send WebSocket update
             if (webSocketService != null) {
@@ -128,28 +115,10 @@ public class MqttService {
         }
     }
 
-    @Transactional
     private void processLedCommandMessage(int ledNumber, boolean state) throws Exception {
         try {
             logger.info("🔄 Processing LED {} COMMAND - Requested State: {}",
                     ledNumber, state ? "ON" : "OFF");
-
-            // Create and save LED event for the command
-            LedEvent commandEvent = new LedEvent();
-            commandEvent.setDeviceMac("SYSTEM"); // Command originated from system
-            commandEvent.setDeviceName("System Command");
-            commandEvent.setLocation("Server");
-            commandEvent.setIsOnline(true);
-            commandEvent.setLastSeen(LocalDateTime.now());
-            commandEvent.setLedNumber(ledNumber);
-            commandEvent.setActionType("COMMAND");
-            commandEvent.setStateOn(state);
-            commandEvent.setTopic("home/lamps/" + ledNumber);
-            commandEvent.setPayload(state ? "1" : "0");
-            commandEvent.setSource("system");
-
-            LedEvent savedCommandEvent = ledEventRepository.save(commandEvent);
-            logger.info("✅ LED {} COMMAND saved: ID={}", ledNumber, savedCommandEvent.getId());
 
             // WebSocket update for command acknowledgment
             if (webSocketService != null) {
@@ -158,7 +127,7 @@ public class MqttService {
 
         } catch (Exception e) {
             logger.error("❌ Error processing LED {} command: {}", ledNumber, e.getMessage(), e);
-            throw e; // Re-throw để transaction rollback
+            throw e;
         }
     }
 
@@ -167,25 +136,18 @@ public class MqttService {
         try {
             JsonNode node = objectMapper.readTree(payload);
 
-            // Create new sensor data object
+            // Create new sensor data object with only essential fields
             SensorData sensorData = new SensorData();
             sensorData.setTemperature(node.get("temp").asDouble());
             sensorData.setHumidity(node.get("hum").asDouble());
-            sensorData.setLux(node.get("lux").asInt());
-            sensorData.setLightRaw(node.get("light_raw").asInt());
             // Calculate light level from raw value (0-4095) to percentage (0-100)
             int lightLevel = (int) ((1.0 - (node.get("light_raw").asDouble() / 4095.0)) * 100);
             sensorData.setLightLevel(lightLevel);
-            sensorData.setSensor(node.get("sensor").asText());
-            sensorData.setMac(node.get("mac").asText());
             sensorData.setUptime(node.get("uptime").asInt());
             sensorData.setCreatedAt(LocalDateTime.now());
 
             // Save to database
             sensorDataService.saveSensorData(sensorData);
-
-            // Update device status
-            deviceService.updateDeviceStatus(sensorData.getMac(), true);
 
             // Send update via WebSocket
             webSocketService.sendSensorUpdate(sensorData);

@@ -38,14 +38,11 @@ public class WebSocketController {
 
             // Create and save the event
             LedEvent ledEvent = new LedEvent();
-            ledEvent.setDeviceMac("esp32");
-            ledEvent.setDeviceName("ESP32-LED-Controller");
+
             ledEvent.setLedNumber(ledNumber);
-            ledEvent.setActionType("CONTROL");
+
             ledEvent.setStateOn(request.isState());
-            ledEvent.setSource("web");
-            ledEvent.setTopic(topic);
-            ledEvent.setPayload(payload);
+
             ledEvent.setCreatedAt(LocalDateTime.now());
 
             return ledEventRepository.save(ledEvent);

@@ -17,21 +17,12 @@ public class LedEventService {
         this.repository = repository;
     }
 
-    // ✅ Sử dụng no-args constructor + setters
     @Transactional
-    public LedEvent save(String deviceMac, int ledNumber, String actionType,
-                         boolean stateOn, String topic, String payload, String source) {
-
-        LedEvent event = new LedEvent();  // ✅ No-args constructor
-        event.setDeviceMac(deviceMac);
+    public LedEvent save(int ledNumber, boolean stateOn) {
+        LedEvent event = new LedEvent();
         event.setLedNumber(ledNumber);
-        event.setActionType(actionType);
         event.setStateOn(stateOn);
-        event.setTopic(topic);
-        event.setPayload(payload);
-        event.setSource(source);
         event.setCreatedAt(LocalDateTime.now());
-
         return repository.save(event);
     }
 
@@ -39,11 +30,8 @@ public class LedEventService {
         return repository.findTop50ByOrderByCreatedAtDesc();
     }
 
-    public List<LedEvent> getEventsByDevice(String deviceMac) {
-        return repository.findTop50ByDeviceMacOrderByCreatedAtDesc(deviceMac);
+    public List<LedEvent> getEventsByLed(int ledNumber) {
+        return repository.findByLedNumberOrderByCreatedAtDesc(ledNumber);
     }
 
-    public List<LedEvent> getEventsByType(String actionType) {
-        return repository.findByActionTypeOrderByCreatedAtDesc(actionType);
-    }
 }

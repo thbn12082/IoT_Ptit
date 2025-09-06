@@ -11,87 +11,63 @@ public class LedEvent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "device_mac", nullable = false)
-    private String deviceMac;
-
-    @Column(name = "device_name")
-    private String deviceName;
-
-    @Column(name = "location")
-    private String location;
-
-    @Column(name = "is_online")
-    private Boolean isOnline = false;
-
-    @Column(name = "last_seen")
-    private LocalDateTime lastSeen;
-
-    @Column(name = "led_number")
+    @Column(name = "led_number", nullable = false)
     private Integer ledNumber;
 
-    @Column(name = "action_type")
-    private String actionType; // COMMAND, STATE, DEVICE_STATUS
+    public static final String STATE_ON = "ON";
+    public static final String STATE_OFF = "OFF";
 
-    @Column(name = "state_on")
-    private Boolean stateOn;
+    @Column(name = "state_on", nullable = false)
+    private String state;
 
-    @Column(name = "topic")
-    private String topic;
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
 
-    @Column(name = "payload")
-    private String payload;
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
 
-    @Column(name = "source")
-    private String source;
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    public Integer getLedNumber() {
+        return ledNumber;
+    }
+
+    public void setLedNumber(Integer ledNumber) {
+        this.ledNumber = ledNumber;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public void setStateOn(Boolean stateOn) {
+        this.state = stateOn ? STATE_ON : STATE_OFF;
+    }
+
+    public Boolean getStateOn() {
+        return STATE_ON.equals(this.state);
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 
     @PrePersist
     protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
+        if (createdAt == null) {
+            createdAt = LocalDateTime.now();
+        }
     }
-
-    // Constructors
-    public LedEvent() {}
-
-    // Getters và Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getDeviceMac() { return deviceMac; }
-    public void setDeviceMac(String deviceMac) { this.deviceMac = deviceMac; }
-
-    public String getDeviceName() { return deviceName; }
-    public void setDeviceName(String deviceName) { this.deviceName = deviceName; }
-
-    public String getLocation() { return location; }
-    public void setLocation(String location) { this.location = location; }
-
-    public Boolean getIsOnline() { return isOnline; }
-    public void setIsOnline(Boolean isOnline) { this.isOnline = isOnline; }
-
-    public LocalDateTime getLastSeen() { return lastSeen; }
-    public void setLastSeen(LocalDateTime lastSeen) { this.lastSeen = lastSeen; }
-
-    public Integer getLedNumber() { return ledNumber; }
-    public void setLedNumber(Integer ledNumber) { this.ledNumber = ledNumber; }
-
-    public String getActionType() { return actionType; }
-    public void setActionType(String actionType) { this.actionType = actionType; }
-
-    public Boolean getStateOn() { return stateOn; }
-    public void setStateOn(Boolean stateOn) { this.stateOn = stateOn; }
-
-    public String getTopic() { return topic; }
-    public void setTopic(String topic) { this.topic = topic; }
-
-    public String getPayload() { return payload; }
-    public void setPayload(String payload) { this.payload = payload; }
-
-    public String getSource() { return source; }
-    public void setSource(String source) { this.source = source; }
-
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }
