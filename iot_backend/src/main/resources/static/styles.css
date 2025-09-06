@@ -231,6 +231,30 @@ body {
     box-shadow: 0 2px 8px rgba(147, 51, 234, 0.1);
 }
 
+/* LED Button States */
+.device-btn.led-on {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3) !important;
+    transform: translateY(-1px) !important;
+}
+
+.device-btn.led-off {
+    background: linear-gradient(135deg, #9333ea 0%, #7928ca 100%) !important;
+    box-shadow: 0 2px 8px rgba(147, 51, 234, 0.1) !important;
+    transform: translateY(0) !important;
+}
+
+.device-btn.led-connecting {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
 .sensor-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
