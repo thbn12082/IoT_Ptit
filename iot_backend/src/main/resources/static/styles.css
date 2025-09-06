@@ -555,6 +555,19 @@ input:checked+.slider:before {
     opacity: 0.8;
 }
 
+/* Data Sensor table helpers */
+.table-wrap { margin-top: 1rem; }
+.table { width: 100%; border-collapse: separate; border-spacing: 0; background: #ffffff; border: 1px solid rgba(0,0,0,0.05); border-radius: 12px; overflow: hidden; }
+.table th, .table td { padding: 12px 14px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
+.table th { background: #f8fafc; text-align: left; color: #475569; font-weight: 600; }
+.table tr:hover td { background: #fafafa; }
+.table-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; }
+.pagination { display: flex; gap: 6px; }
+.page-btn { width: 32px; height: 32px; border: 1px solid #e5e7eb; background: #fff; border-radius: 6px; cursor: pointer; }
+.page-btn.active { background: #1f2937; color: #fff; border-color: #1f2937; }
+.muted { color: #64748b; }
+.status-dot { width: 8px; height: 8px; border-radius: 9999px; background: #ef4444; display: inline-block; margin-right: 8px; }
+
 /* Thêm style cho container chính */
 .container {
     max-width: 1300px;
