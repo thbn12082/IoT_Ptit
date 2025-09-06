@@ -24,25 +24,42 @@ public class WebSocketController {
     @SendTo("/topic/led-status")
     public LedEvent handleLedControl(LedControlRequest request) {
         try {
-            // Extract LED number from deviceId (led1, led2, led3)
-            int ledNumber = Character.getNumericValue(request.getDeviceId().charAt(3));
-
-            // Topic for LED control
-            String topic = "home/lamps/2";
-
-            // Create JSON payload
-            String payload = String.format(
-                    "{\"mac\":\"E0:E2:E6:63:21:F0\", \"light_raw\":%d}",
-                    request.isState() ? 1 : 0); // Send MQTT message
-            mqttGateway.sendToMqtt(topic, payload);
+            int ledNumber;
+            String topic;
+            
+            // Handle different deviceId formats
+            if ("all".equals(request.getDeviceId())) {
+                // For "All LEDs" button, we'll control LED 1 and return its event
+                // In practice, you might want to send to all LEDs
+                ledNumber = 1;
+                topic = "home/lamps/1";
+                
+                // Send commands to all LEDs
+                String payload = request.isState() ? "1" : "0";
+                mqttGateway.sendToMqtt("home/lamps/1", payload);
+                mqttGateway.sendToMqtt("home/lamps/2", payload);
+                mqttGateway.sendToMqtt("home/lamps/3", payload);
+            } else {
+                // Extract LED number from deviceId (led1, led2, led3)
+                if (request.getDeviceId().startsWith("led")) {
+                    ledNumber = Integer.parseInt(request.getDeviceId().substring(3));
+                } else {
+                    // Handle "LED 1", "LED 2", "LED 3" format
+                    ledNumber = Integer.parseInt(request.getDeviceId().replaceAll("[^0-9]", ""));
+                }
+                
+                // Topic for specific LED control
+                topic = "home/lamps/" + ledNumber;
+                
+                // Send MQTT message with simple payload (just "1" or "0")
+                String payload = request.isState() ? "1" : "0";
+                mqttGateway.sendToMqtt(topic, payload);
+            }
 
             // Create and save the event
             LedEvent ledEvent = new LedEvent();
-
             ledEvent.setLedNumber(ledNumber);
-
             ledEvent.setStateOn(request.isState());
-
             ledEvent.setCreatedAt(LocalDateTime.now());
 
             return ledEventRepository.save(ledEvent);
