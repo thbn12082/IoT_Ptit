@@ -185,16 +185,43 @@ stompClient.connect({}, function (frame) {
     initializeLEDControls();
 });
 
-function updateLEDButtonStatus(ledId, isOn) {
-    const button = document.querySelector(`.device-btn:not(.led-all):contains("${ledId}")`);
-    if (button) {
-        if (isOn) {
-            button.style.background = 'linear-gradient(135deg, #7928ca 0%, #6b21a8 100%)';
-            button.style.boxShadow = '0 4px 12px rgba(147, 51, 234, 0.2)';
-        } else {
-            button.style.background = 'linear-gradient(135deg, #9333ea 0%, #7928ca 100%)';
-            button.style.boxShadow = 'none';
+function updateLEDButtonStatus(ledText, isOn) {
+    // Find button by text content
+    const buttons = document.querySelectorAll('.device-btn');
+    let targetButton = null;
+    
+    buttons.forEach(button => {
+        if (button.textContent.trim() === ledText) {
+            targetButton = button;
         }
+    });
+    
+    if (targetButton) {
+        // Remove all LED state classes
+        targetButton.classList.remove('led-on', 'led-off', 'led-connecting');
+        
+        // Add appropriate state class
+        if (isOn) {
+            targetButton.classList.add('led-on');
+        } else {
+            targetButton.classList.add('led-off');
+        }
+    }
+}
+
+function setLEDButtonConnecting(ledText) {
+    const buttons = document.querySelectorAll('.device-btn');
+    let targetButton = null;
+    
+    buttons.forEach(button => {
+        if (button.textContent.trim() === ledText) {
+            targetButton = button;
+        }
+    });
+    
+    if (targetButton) {
+        targetButton.classList.remove('led-on', 'led-off');
+        targetButton.classList.add('led-connecting');
     }
 }
 
@@ -254,50 +281,102 @@ function initializeLEDControls() {
         'LED 3': false
     };
 
-    // Khởi tạo trạng thái ban đầu từ server
+    console.log('Initializing LED controls...');
+
+    // Subscribe to LED status updates from server
     stompClient.subscribe('/topic/led-status', function (message) {
+        console.log('Received LED status update:', message.body);
         const status = JSON.parse(message.body);
-        updateLEDButtonStatus(status.ledId, status.state);
+        
+        // Update the corresponding LED button based on the LED number
+        const ledText = `LED ${status.ledNumber}`;
+        updateLEDButtonStatus(ledText, status.stateOn);
+        ledStates[ledText] = status.stateOn;
     });
 
     ledButtons.forEach(button => {
-        if (button.textContent !== 'All LEDs') {
+        const buttonText = button.textContent.trim();
+        console.log('Setting up button:', buttonText);
+        
+        if (buttonText !== 'All LEDs') {
             button.addEventListener('click', function () {
-                const ledId = this.textContent.toLowerCase().replace(' ', '');
-                const newState = !ledStates[this.textContent];
+                const currentState = ledStates[buttonText] || false;
+                const newState = !currentState;
+
+                console.log(`Clicking ${buttonText}: ${currentState} -> ${newState}`);
+
+                // Show connecting state immediately
+                setLEDButtonConnecting(buttonText);
 
                 const message = {
-                    deviceId: ledId,
+                    deviceId: buttonText, // Send "LED 1", "LED 2", "LED 3"
                     state: newState
                 };
 
-                // Gửi lệnh điều khiển đến server
-                stompClient.send("/app/led-control", {}, JSON.stringify(message));
-
-                // Cập nhật trạng thái nút ngay lập tức để UI phản hồi nhanh
-                updateLEDButtonStatus(this.textContent, newState);
-                ledStates[this.textContent] = newState;
+                try {
+                    // Send control command to server
+                    stompClient.send("/app/led-control", {}, JSON.stringify(message));
+                    console.log('Sent LED control message:', message);
+                    
+                    // Update state optimistically after a short delay
+                    setTimeout(() => {
+                        updateLEDButtonStatus(buttonText, newState);
+                        ledStates[buttonText] = newState;
+                    }, 500);
+                    
+                } catch (error) {
+                    console.error('Failed to send LED control message:', error);
+                    // Revert to previous state on error
+                    updateLEDButtonStatus(buttonText, currentState);
+                }
             });
         } else {
-            // Xử lý nút All LEDs
+            // Handle All LEDs button
             button.addEventListener('click', function () {
-                const allLedsOn = !Object.values(ledStates).every(state => state);
+                const allCurrentlyOn = Object.values(ledStates).every(state => state);
+                const newState = !allCurrentlyOn;
 
-                // Gửi lệnh điều khiển tất cả LED
-                const message = {
-                    deviceId: 'all',
-                    state: allLedsOn
-                };
-                stompClient.send("/app/led-control", {}, JSON.stringify(message));
+                console.log(`Clicking All LEDs: all currently ${allCurrentlyOn ? 'ON' : 'OFF'} -> ${newState ? 'ON' : 'OFF'}`);
 
-                // Cập nhật trạng thái tất cả các nút
-                Object.keys(ledStates).forEach(led => {
-                    updateLEDButtonStatus(led, allLedsOn);
-                    ledStates[led] = allLedsOn;
+                // Show connecting state for all LEDs
+                Object.keys(ledStates).forEach(ledText => {
+                    setLEDButtonConnecting(ledText);
                 });
+
+                try {
+                    // Send control command for all LEDs
+                    const message = {
+                        deviceId: 'all',
+                        state: newState
+                    };
+                    stompClient.send("/app/led-control", {}, JSON.stringify(message));
+                    console.log('Sent All LEDs control message:', message);
+
+                    // Update all LED button states after a short delay
+                    setTimeout(() => {
+                        Object.keys(ledStates).forEach(ledText => {
+                            updateLEDButtonStatus(ledText, newState);
+                            ledStates[ledText] = newState;
+                        });
+                    }, 500);
+                    
+                } catch (error) {
+                    console.error('Failed to send All LEDs control message:', error);
+                    // Revert to previous states on error
+                    Object.keys(ledStates).forEach(ledText => {
+                        updateLEDButtonStatus(ledText, ledStates[ledText]);
+                    });
+                }
             });
         }
     });
+
+    // Initialize all LED buttons to OFF state
+    Object.keys(ledStates).forEach(ledText => {
+        updateLEDButtonStatus(ledText, false);
+    });
+
+    console.log('LED controls initialized with states:', ledStates);
 }
 
 function updateLEDStatus(ledId, isOn) {
