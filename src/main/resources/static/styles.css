@@ -701,6 +701,7 @@ p {
         height: auto;
     }
 }
+
 .device-controls-grid {
     display: flex;
     flex-direction: column;
@@ -800,15 +801,15 @@ p {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.toggle-switch input:checked + label {
+.toggle-switch input:checked+label {
     background-color: #4299e1;
 }
 
-.toggle-switch input:checked + label:before {
+.toggle-switch input:checked+label:before {
     transform: translateX(22px);
 }
 
-.toggle-switch input:focus + label {
+.toggle-switch input:focus+label {
     box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.3);
 }
 
@@ -841,7 +842,7 @@ p {
         width: 19px;
     }
 
-    .toggle-switch input:checked + label:before {
+    .toggle-switch input:checked+label:before {
         transform: translateX(20px);
     }
 }

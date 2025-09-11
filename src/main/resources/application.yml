@@ -20,7 +20,7 @@ spring:
 # MQTT Configuration
 mqtt:
   broker:
-    url: tcp://192.168.16.107:1883
+    url: tcp://192.168.16.109:1883
     client-id: SpringBootBackend
     username: thebinh
     password: 0281
