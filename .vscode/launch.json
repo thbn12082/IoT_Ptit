@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "IotBackendApplication",
+            "request": "launch",
+            "mainClass": "com.example.iot_backend.IotBackendApplication",
+            "projectName": ""
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-IotBackendApplication<iot-backend>",
             "request": "launch",
             "cwd": "${workspaceFolder}",

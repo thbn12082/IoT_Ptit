@@ -85,7 +85,7 @@ const temperatureConfig = {
                 ...commonChartOptions.scales.y,
                 title: {
                     ...commonChartOptions.scales.y.title,
-                    text: 'Temperature (°C)'
+                    text: 'Nhiệt độ (°C)'
                 }
             }
         }
@@ -117,7 +117,7 @@ const humidityConfig = {
                 ...commonChartOptions.scales.y,
                 title: {
                     ...commonChartOptions.scales.y.title,
-                    text: 'Humidity (%)'
+                    text: 'Độ ẩm (%)'
                 }
             }
         }
@@ -148,7 +148,7 @@ const lightConfig = {
                 ...commonChartOptions.scales.y,
                 title: {
                     ...commonChartOptions.scales.y.title,
-                    text: 'Light Intensity (lux)'
+                    text: 'ÁNh sáng (lux)'
                 }
             }
         }
@@ -395,6 +395,59 @@ function updateLEDStatus(ledId, isOn) {
         ledIcon.style.opacity = '0.5';
     }
 }
+// Gửi lệnh thiết bị tới backend, tùy vào backend bạn tích hợp phương thức phù hợp
+function sendDeviceCommand(device, state) {
+  // Ví dụ, dùng console.log để kiểm tra
+  console.log("Gửi lệnh:", device, state ? "ON" : "OFF");
+  // Tích hợp WebSocket/MQTT tại đây (nếu có)
+  // stompClient.send("/app/device-control", {}, JSON.stringify({device, state}));
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Map giữa input id với thiết bị thực tế
+  const controlMap = {
+    'toggle-all': ['led1', 'led2', 'led3'],
+    'toggle-led1': ['led1'],
+    'toggle-led2': ['led2'],
+    'toggle-led3': ['led3']
+  };
+
+  // Lắng nghe toggle
+  document.querySelectorAll('.control-item .toggle-switch input').forEach(input => {
+    input.addEventListener('change', function () {
+      const inputId = this.id;
+      const isChecked = this.checked;
+
+      if (inputId === 'toggle-all') {
+        // Nếu bật/tắt tất cả
+        ['toggle-led1', 'toggle-led2', 'toggle-led3'].forEach(id => {
+          const ledInput = document.getElementById(id);
+          if (ledInput.checked !== isChecked) {
+            ledInput.checked = isChecked;
+            // Gửi lệnh cho từng LED
+            sendDeviceCommand(controlMap[id][0], isChecked);
+          }
+        });
+        // Gửi lệnh all nếu cần xử lý riêng
+        sendDeviceCommand('all', isChecked);
+      } else {
+        // Từng thiết bị riêng lẻ
+        sendDeviceCommand(controlMap[inputId][0], isChecked);
+
+        // Nếu một LED nào đó bị tắt thì đồng bộ toggle-all tắt
+        if (!isChecked) {
+          document.getElementById('toggle-all').checked = false;
+        } else {
+          // Nếu tất cả các toggle-led đều bật thì toggle-all cũng bật
+          const allOn = ['toggle-led1', 'toggle-led2', 'toggle-led3']
+            .every(id => document.getElementById(id).checked);
+          document.getElementById('toggle-all').checked = allOn;
+        }
+      }
+    });
+  });
+});
+
 
 // Handle WebSocket errors and reconnection
 socket.onclose = function () {

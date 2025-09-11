@@ -91,16 +91,67 @@
                     </div>
                 </div>
                 <div class="charts-side-column">
+
+
+
                     <div class="device-section">
                         <h3>Device Controls</h3>
-                        <div class="device-grid">
-                            <button class="device-btn led-all">All LEDs</button>
-                            <button class="device-btn led-btn">LED 1</button>
-                            <button class="device-btn led-btn">LED 2</button>
-                            <button class="device-btn led-btn">LED 3</button>
+                        <div class="device-controls-grid">
+
+                            <!-- Đèn (led1) -->
+                            <div class="control-item">
+                                <div class="control-info">
+                                    <div class="control-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M18.1957 8.80413C18.9727 9.22817 19.4998 10.0526 19.4998 11.0001C19.4998 12.3808 18.3805 13.5001 16.9998 13.5001C16.0523 13.5001 15.2279 12.973 14.8039 12.196M18.1957 8.80413L20.9998 6.00006L15.9998 6.00006L13.9998 4.00006C12.8952 2.89549 11.1044 2.89549 9.99981 4.00006C8.89524 5.10463 8.89524 6.89549 9.99981 8.00006L11.9998 10.0001L11.9998 15.0001L14.8039 12.196M18.1957 8.80413L14.8039 12.196M8.99951 20.9998L6.99951 11.9998L10.4995 8.49976M2.99951 20.9998L14.9995 20.9998" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                                    </div>
+                                    <div class="control-text">
+                                        <div class="control-title">Đèn</div>
+                                    </div>
+                                </div>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="toggle-led1">
+                                    <label for="toggle-led1"></label>
+                                </div>
+                            </div>
+
+                            <!-- Quạt (led2) -->
+                            <div class="control-item">
+                                <div class="control-info">
+                                    <div class="control-icon">
+                                        <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path opacity="0.503384" d="M154.096 124.583C168.492 108.233 189.038 99.4786 210.098 101.218C299.917 108.629 296.01 237.152 217.564 263.452C107.445 300.375 113.386 156.857 150.984 124.583" stroke="#000000" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path opacity="0.503384" d="M173.956 150.293C181.324 142.172 189.281 137.207 199.605 134.723C249.649 122.691 248.421 185.463 222.752 213.241C196.322 241.838 156.547 205.896 162.695 172.628" stroke="#000000" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M196.606 172.231C196.223 160.879 194.145 147.833 197.22 136.663C221.773 47.4913 238.064 157.027 195.374 180.283" stroke="#000000" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M208.232 181.011C221.296 177.33 273.492 176.16 273.492 202.297C273.492 211.187 226.263 219.925 198.82 182.384" stroke="#000000" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M197.435 180.283C209.788 200.69 189.132 261.382 164.194 256.848C152.876 254.79 163.559 195.514 192.511 184.985" stroke="#000000" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M183.625 188.103C172.57 198.365 119.9 190.872 123.144 170.323C128.066 139.124 179.312 152.737 194.225 171.64" stroke="#000000" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M210.613 237.269C214.99 257.35 227.535 279.166 214.749 297.97" stroke="#000000" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M194.225 299.183C207.276 298.891 232.761 297.996 240.176 297.996" stroke="#000000" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                                    </div>
+                                    <div class="control-text">
+                                        <div class="control-title">Quạt</div>
+                                    </div>
+                                </div>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="toggle-led2">
+                                    <label for="toggle-led2"></label>
+                                </div>
+                            </div>
+
+                            <!-- Điều hòa (led3) -->
+                            <div class="control-item">
+                                <div class="control-info">
+                                    <div class="control-icon">
+                                        <svg viewBox="0 0 1024 1024" fill="#000000" class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M383.2 941.6c-4 0-6.4-0.8-9.6-2.4-14.4-9.6-82.4-60-25.6-160 15.2-27.2 19.2-48.8 13.6-66.4-6.4-20-27.2-28-27.2-28-9.6-4-14.4-15.2-10.4-24.8 3.2-8 9.6-12.8 17.6-12.8 2.4 0 4.8 0.8 7.2 1.6 3.2 0 36.8 14.4 50.4 50.4 10.4 28.8 4.8 62.4-16.8 100-40 70.4 2.4 101.6 11.2 107.2 8.8 4.8 12 16.8 7.2 26.4-4.8 6.4-12 8.8-17.6 8.8z m129.6-42.4c-4 0-6.4-0.8-9.6-2.4-28.8-16.8-69.6-68.8-24-150.4 13.6-24.8 17.6-44.8 12-60-5.6-17.6-24-24.8-24-24.8-10.4-4-15.2-14.4-11.2-24.8 3.2-8 9.6-12.8 17.6-12.8 2.4 0 4.8 0.8 7.2 1.6 8 3.2 36 16 47.2 48 9.6 27.2 4.8 58.4-15.2 92.8-38.4 68.8 8 96.8 10.4 97.6 4 2.4 7.2 6.4 8.8 11.2 1.6 4.8 0.8 10.4-1.6 15.2-4.8 6.4-12 8.8-17.6 8.8z m-265.6 0c-4 0-6.4-0.8-9.6-2.4-28.8-16.8-69.6-68.8-24-150.4 13.6-24.8 17.6-44.8 12-60-5.6-17.6-24-24.8-24-24.8-10.4-4-15.2-14.4-11.2-24.8 3.2-8 9.6-12.8 17.6-12.8 2.4 0 4.8 0.8 7.2 1.6 8 3.2 36 16.8 47.2 48 9.6 27.2 4 58.4-15.2 93.6-38.4 68.8 8 96.8 10.4 97.6 4 2.4 7.2 6.4 8.8 11.2 1.6 4.8 0.8 10.4-1.6 15.2-4 5.6-12 8-17.6 8z m487.2-71.2c-6.4 0-11.2-2.4-15.2-6.4s-6.4-9.6-6.4-15.2c0-8.8 5.6-16.8 13.6-20.8h0.8v-43.2l-40.8 23.2v0.8c0 6.4-2.4 14.4-10.4 18.4-3.2 2.4-7.2 3.2-11.2 3.2-8 0-15.2-4-18.4-10.4-3.2-5.6-4-11.2-2.4-16.8 1.6-5.6 4.8-10.4 10.4-12.8 3.2-2.4 7.2-3.2 10.4-3.2 4 0 8 0.8 11.2 3.2l36.8-20.8-36-20.8c-4.8 1.6-8.8 2.4-12 2.4-4 0-7.2-0.8-10.4-2.4-9.6-6.4-13.6-20-8-29.6 4-6.4 11.2-10.4 19.2-10.4 4 0 8 0.8 11.2 3.2 6.4 4 10.4 10.4 10.4 18.4v0.8L728 712v-43.2h-0.8c-8-4-13.6-12-13.6-20.8 0-12 9.6-21.6 21.6-21.6 6.4 0 12 2.4 16 6.4s6.4 9.6 6.4 15.2c0 7.2-4 14.4-11.2 18.4H744v41.6l35.2-20v-0.8c0-6.4 2.4-14.4 10.4-18.4 3.2-2.4 7.2-3.2 11.2-3.2 8 0 15.2 4 18.4 10.4 3.2 5.6 4 11.2 2.4 16.8-1.6 5.6-4.8 10.4-10.4 12.8-3.2 2.4-7.2 3.2-10.4 3.2-4 0-8-0.8-11.2-3.2l-36.8 20.8 36 20.8c4.8-1.6 8.8-2.4 12-2.4 4 0 7.2 0.8 10.4 2.4 9.6 6.4 13.6 20 8 29.6-4 6.4-11.2 10.4-19.2 10.4-4 0-8-0.8-11.2-3.2-6.4-4-10.4-10.4-10.4-18.4v-0.8L744 745.6v41.6h0.8c7.2 3.2 11.2 10.4 11.2 18.4 0 12.8-9.6 22.4-21.6 22.4zM152 575.2c-60.8 0-109.6-48.8-109.6-109.6V204.8c0-60.8 48.8-109.6 109.6-109.6h721.6c60.8 0 109.6 48.8 109.6 109.6v260.8c0 60.8-48.8 109.6-109.6 109.6H152z m-11.2-432c-28.8 0-52 24-52 54.4v278.4c0 29.6 23.2 54.4 52 54.4h743.2c28.8 0 52-24 52-54.4V197.6c0-29.6-23.2-54.4-52-54.4H140.8z m21.6 312c-10.4 0-19.2-8.8-19.2-19.2 0-10.4 8.8-19.2 19.2-19.2h682.4c10.4 0 19.2 8.8 19.2 19.2 0 10.4-8.8 19.2-19.2 19.2H162.4z m0-80.8c-10.4 0-19.2-8.8-19.2-19.2S152 336 162.4 336h682.4c10.4 0 19.2 8.8 19.2 19.2 0 10.4-8.8 19.2-19.2 19.2H162.4z" fill=""></path></g></svg>
+                                    </div>
+                                    <div class="control-text">
+                                        <div class="control-title">Điều hòa</div>
+                                    </div>
+                                </div>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="toggle-led3">
+                                    <label for="toggle-led3"></label>
+                                </div>
+                            </div>
+
+
 
                         </div>
                     </div>
+
+
 
                     <div class="chart-container light-chart">
                         <h3>Light Level History</h3>

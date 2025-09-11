@@ -701,6 +701,150 @@ p {
         height: auto;
     }
 }
+.device-controls-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.control-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.control-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.control-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+}
+
+.control-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.control-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.control-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2d3748;
+    margin: 0;
+}
+
+.control-subtitle {
+    font-size: 14px;
+    color: #718096;
+    margin: 0;
+}
+
+/* Toggle Switch Styles */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 28px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-switch label {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #cbd5e0;
+    border-radius: 28px;
+    transition: background-color 0.3s ease;
+}
+
+.toggle-switch label:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-switch input:checked + label {
+    background-color: #4299e1;
+}
+
+.toggle-switch input:checked + label:before {
+    transform: translateX(22px);
+}
+
+.toggle-switch input:focus + label {
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .control-item {
+        padding: 12px;
+    }
+
+    .control-icon {
+        width: 36px;
+        height: 36px;
+    }
+
+    .control-title {
+        font-size: 14px;
+    }
+
+    .control-subtitle {
+        font-size: 12px;
+    }
+
+    .toggle-switch {
+        width: 45px;
+        height: 25px;
+    }
+
+    .toggle-switch label:before {
+        height: 19px;
+        width: 19px;
+    }
+
+    .toggle-switch input:checked + label:before {
+        transform: translateX(20px);
+    }
+}
 
 @media (max-width: 768px) {
     .sensor-cards {
