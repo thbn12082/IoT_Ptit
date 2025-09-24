@@ -20,9 +20,9 @@ public class SensorDataService {
         return sensorDataRepository.save(sensorData);
     }
 
-    // Lấy tất cả dữ liệu
+    // Lấy tất cả dữ liệu, thời gian được sắp xếp từ mới đến cũ
     public List<SensorData> getAllSensorData() {
-        return sensorDataRepository.findAll();
+        return sensorDataRepository.findAllByOrderByCreatedAtDesc();
     }
 
     // Lấy dữ liệu mới nhất (10 records)

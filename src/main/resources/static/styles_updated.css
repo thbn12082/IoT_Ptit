@@ -1,0 +1,1009 @@
+/* Reset và base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #ffffff;
+    color: #333333;
+    line-height: 1.6;
+}
+
+/* NAVBAR - GIỮ NGUYÊN KÍCH CỠ */
+.navbar {
+    background-color: #ffffff;
+    padding: 1rem 2rem; /* Giữ nguyên padding */
+    display: flex;
+    gap: 1.5rem; /* Giữ nguyên gap */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+}
+
+.navbar a {
+    color: #666666;
+    text-decoration: none;
+    padding: 0.6rem 1.2rem; /* Giữ nguyên padding */
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    font-size: 1rem; /* Giữ nguyên font size */
+}
+
+.navbar a:hover {
+    color: #333333;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.navbar a.active {
+    background-color: #f3f4f6;
+    color: #333333;
+}
+
+/* CONTAINER - GIẢM PADDING VÀ MARGIN */
+.container {
+    max-width: 1200px; /* Giảm từ 1400px xuống 1200px */
+    margin: 0 auto;
+    padding: 1.5rem; /* Giảm từ 2rem xuống 1.5rem */
+}
+
+/* DASHBOARD HEADER - GIẢM KÍCH CỠ */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem; /* Giảm từ 2rem xuống 1.5rem */
+    padding-bottom: 0.75rem; /* Giảm từ 1rem xuống 0.75rem */
+    border-bottom: 2px solid #e1e5eb;
+}
+
+.time-display {
+    font-size: 1rem; /* Giảm từ 1.2rem xuống 1rem */
+    color: #666;
+    font-weight: 500;
+}
+
+/* DASHBOARD GRID - GIẢM GAP */
+.dashboard-grid {
+    display: grid;
+
+    grid-template-columns: 1fr;
+}
+
+/* SENSOR CARDS - GIẢM KÍCH CỠ VÀ GAP */
+.sensor-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Giảm từ 250px xuống 200px */
+    gap: 1.5rem; /* Giảm từ 2rem xuống 1.5rem */
+   /* Giảm từ 2rem xuống 1.5rem */
+
+    align-items: center;
+}
+
+.sensor-card {
+    background: #ffffff;
+    padding: 1rem; /* Giảm từ 1.5rem xuống 1rem */
+    border-radius: 20px; /* Giảm từ 24px xuống 20px */
+    display: flex;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* SENSOR CIRCLES - GIẢM KÍCH CỠ */
+.sensor-circle {
+    position: relative;
+    width: 150px; /* Giảm từ 200px xuống 150px */
+    height: 150px; /* Giảm từ 200px xuống 150px */
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    --progress: 0%;
+}
+
+.sensor-circle::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    bottom: -3px;
+    left: -3px;
+    border-radius: 50%;
+    z-index: -1;
+    transition: all 0.3s ease;
+}
+
+.sensor-circle.temperature::before {
+    background: conic-gradient(#FF4B4B 0%, #FF4B4B var(--progress), #eee var(--progress), #eee 100%);
+}
+
+.sensor-circle.humidity::before {
+    background: conic-gradient(#4B83FF 0%, #4B83FF var(--progress), #eee var(--progress), #eee 100%);
+}
+
+.sensor-circle.light::before {
+    background: conic-gradient(#FFB800 0%, #FFB800 var(--progress), #eee var(--progress), #eee 100%);
+}
+
+.sensor-info {
+    text-align: center;
+    margin-top: 0.4rem; /* Giảm từ 0.5rem xuống 0.4rem */
+}
+
+.sensor-icon {
+    margin-bottom: 0.4rem; /* Giảm từ 0.5rem xuống 0.4rem */
+}
+
+.sensor-icon svg {
+    width: 22px; /* Giảm từ 28px xuống 22px */
+    height: 22px; /* Giảm từ 28px xuống 22px */
+}
+
+.temperature .sensor-icon svg {
+    stroke: #FF4B4B;
+}
+
+.humidity .sensor-icon svg {
+    stroke: #4B83FF;
+}
+
+.light .sensor-icon svg {
+    stroke: #FFB800;
+}
+
+/* SENSOR VALUES - GIẢM FONT SIZE */
+.sensor-value {
+    font-size: 2rem; /* Giảm từ 2.5rem xuống 2rem */
+    font-weight: 600;
+    margin: 0.4rem 0; /* Giảm từ 0.5rem xuống 0.4rem */
+}
+
+.temperature .sensor-value {
+    color: #FF4B4B;
+}
+
+.humidity .sensor-value {
+    color: #4B83FF;
+}
+
+.light .sensor-value {
+    color: #FFB800;
+}
+
+.sensor-label {
+    font-size: 0.85rem; /* Giảm từ 1rem xuống 0.85rem */
+    color: #666;
+    margin-bottom: 0.2rem; /* Giảm từ 0.25rem xuống 0.2rem */
+}
+
+.sensor-range {
+    font-size: 0.75rem; /* Giảm từ 0.85rem xuống 0.75rem */
+    color: #999;
+}
+
+/* DEVICE SECTION - GIẢM MARGIN */
+.device-section {
+    margin-bottom: 1.5rem; /* Giảm từ 2rem xuống 1.5rem */
+}
+
+.device-section h3 {
+    color: #333333;
+    margin-bottom: 0.75rem; /* Giảm từ 1rem xuống 0.75rem */
+    font-size: 1.1rem; /* Giảm từ 1.2rem xuống 1.1rem */
+    font-weight: 600;
+}
+
+.device-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem; /* Giảm từ 1rem xuống 0.75rem */
+}
+
+/* DEVICE BUTTONS - GIẢM PADDING VÀ FONT SIZE */
+.device-btn {
+    padding: 0.75rem; /* Giảm từ 1rem xuống 0.75rem */
+    border: none;
+    border-radius: 20px; /* Giảm từ 24px xuống 20px */
+    background: #9333ea;
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    font-size: 1rem; /* Giảm từ 1.1rem xuống 1rem */
+}
+
+.device-btn:hover {
+    background: linear-gradient(135deg, #7928ca 0%, #6b21a8 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(147, 51, 234, 0.2);
+}
+
+.device-btn.led-btn {
+    background: linear-gradient(135deg, #9333ea 0%, #7928ca 100%);
+}
+
+.device-btn.led-all {
+    background: linear-gradient(135deg, #7928ca 0%, #6b21a8 100%);
+    font-weight: 700;
+}
+
+.device-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 8px rgba(147, 51, 234, 0.1);
+}
+
+/* LED Button States */
+.device-btn.led-on {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3) !important;
+    transform: translateY(-1px) !important;
+}
+
+.device-btn.led-off {
+    background: linear-gradient(135deg, #9333ea 0%, #7928ca 100%) !important;
+    box-shadow: 0 2px 8px rgba(147, 51, 234, 0.1) !important;
+    transform: translateY(0) !important;
+}
+
+.device-btn.led-connecting {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.sensor-card:hover {
+    transform: translateY(-3px); /* Giảm từ -5px xuống -3px */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+.sensor-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem; /* Giảm từ 1rem xuống 0.75rem */
+    margin-bottom: 1rem; /* Giảm từ 1.5rem xuống 1rem */
+}
+
+.sensor-icon {
+    font-size: 1.75rem; /* Giảm từ 2rem xuống 1.75rem */
+    width: 42px; /* Giảm từ 50px xuống 42px */
+    height: 42px; /* Giảm từ 50px xuống 42px */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.temperature .sensor-icon {
+    background: rgba(255, 107, 107, 0.1);
+    color: #ff6b6b;
+}
+
+.humidity .sensor-icon {
+    background: rgba(77, 171, 247, 0.1);
+    color: #4dabf7;
+}
+
+.light .sensor-icon {
+    background: rgba(255, 212, 59, 0.1);
+    color: #ffd43b;
+}
+
+/* CIRCLE PROGRESS - GIẢM KÍCH CỠ */
+.circle-progress {
+    width: 120px; /* Giảm từ 160px xuống 120px */
+    height: 120px; /* Giảm từ 160px xuống 120px */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    font-size: 2rem; /* Giảm từ 2.5rem xuống 2rem */
+    font-weight: bold;
+    position: relative;
+    background: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border: 10px solid transparent; /* Giảm từ 12px xuống 10px */
+    transition: all 0.3s ease;
+}
+
+.circle-progress:hover {
+    transform: scale(1.05);
+}
+
+.circle-progress::before {
+    content: '';
+    position: absolute;
+    inset: -10px; /* Giảm từ -12px xuống -10px */
+    border-radius: 50%;
+    z-index: -1;
+    transition: transform 0.3s ease;
+}
+
+.circle-progress::after {
+    content: '';
+    position: absolute;
+    inset: -12px; /* Giảm từ -14px xuống -12px */
+    border-radius: 50%;
+    background: white;
+    z-index: -2;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+#temperature-gauge::before {
+    background: conic-gradient(#ff6b6b 0%, #ff8787 60%, rgba(255, 107, 107, 0.2) 60%);
+    animation: pulse-temp 2s infinite;
+}
+
+#humidity-gauge::before {
+    background: conic-gradient(#4dabf7 0%, #74c0fc 75%, rgba(77, 171, 247, 0.2) 75%);
+    animation: pulse-humid 2s infinite;
+}
+
+#light-gauge::before {
+    background: conic-gradient(#ffd43b 0%, #fcc419 85%, rgba(255, 212, 59, 0.2) 85%);
+    animation: pulse-light 2s infinite;
+}
+
+@keyframes pulse-temp {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+@keyframes pulse-humid {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+@keyframes pulse-light {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+.circle-progress span {
+    position: relative;
+    z-index: 1;
+    color: #333;
+}
+
+.sensor-label {
+    display: block;
+    text-align: center;
+    margin-top: 0.75rem; /* Giảm từ 1rem xuống 0.75rem */
+    color: #666;
+}
+
+.controls h3 {
+    margin-bottom: 0.75rem; /* Giảm từ 1rem xuống 0.75rem */
+}
+
+.control-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* Giảm từ 1.2rem xuống 1rem */
+}
+
+.control-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.4rem 0; /* Giảm từ 0.5rem xuống 0.4rem */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.control-item span {
+    font-size: 1rem; /* Giảm từ 1.1rem xuống 1rem */
+    color: #444;
+    font-weight: 500;
+}
+
+/* Switch styles - GIẢM KÍCH CỠ */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 48px; /* Giảm từ 56px xuống 48px */
+    height: 26px; /* Giảm từ 30px xuống 26px */
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #e2e8f0;
+    transition: .3s;
+    border-radius: 26px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px; /* Giảm từ 22px xuống 20px */
+    width: 20px; /* Giảm từ 22px xuống 20px */
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .3s;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+input:checked + .slider {
+    background-color: #3b82f6;
+}
+
+input:checked + .slider:before {
+    transform: translateX(22px); /* Giảm từ 26px xuống 22px */
+}
+
+.switch:hover .slider:before {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* CHARTS GRID - GIẢM GAP */
+.charts-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem; /* Giảm từ 2rem xuống 1.5rem */
+    /* Giảm từ 2rem xuống 1.5rem */
+}
+
+.charts-main-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Giảm từ 2rem xuống 1.5rem */
+}
+
+.charts-side-column {
+    min-height: 320px; /* Giảm từ 400px xuống 320px */
+}
+
+.charts-side-column .chart-container {
+    height: 320px; /* Giảm từ 400px xuống 320px */
+}
+
+/* CHART CONTAINERS - GIẢM PADDING */
+.chart-container {
+    background: #ffffff;
+    padding: 1.5rem; /* Giảm từ 2rem xuống 1.5rem */
+    border-radius: 14px; /* Giảm từ 16px xuống 14px */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-container:hover {
+    transform: translateY(-2px); /* Giảm từ -3px xuống -2px */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.light-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Giảm từ 2rem xuống 1.5rem */
+    height: 100%;
+}
+
+.light-chart canvas {
+    flex: 1;
+    height: 200px; /* Giảm từ 250px xuống 200px */
+    margin-bottom: 0.75rem; /* Giảm từ 1rem xuống 0.75rem */
+}
+
+.light-chart .control-panel {
+    flex: 0 0 auto;
+    background: #f8fafc;
+    border-radius: 10px; /* Giảm từ 12px xuống 10px */
+    padding: 1rem; /* Giảm từ 1.25rem xuống 1rem */
+    margin-top: auto;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.light-chart .panel-header {
+    margin-bottom: 0.75rem; /* Giảm từ 1rem xuống 0.75rem */
+    padding-bottom: 0.6rem; /* Giảm từ 0.75rem xuống 0.6rem */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.light-chart .panel-header h2 {
+    font-size: 1rem; /* Giảm từ 1.1rem xuống 1rem */
+    color: #1a2035;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem; /* Giảm từ 0.5rem xuống 0.4rem */
+}
+
+.light-chart .led-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem; /* Giảm từ 1rem xuống 0.75rem */
+}
+
+.chart-container h3 {
+    margin-bottom: 1.25rem; /* Giảm từ 1.5rem xuống 1.25rem */
+    color: #1a2035;
+    font-size: 1.2rem; /* Giảm từ 1.3rem xuống 1.2rem */
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem; /* Giảm từ 0.5rem xuống 0.4rem */
+}
+
+.chart-container h3::before {
+    content: '📊';
+    font-size: 1.1rem; /* Giảm từ 1.2rem xuống 1.1rem */
+    opacity: 0.8;
+}
+
+.table-wrap {
+    margin-top: 0.75rem; /* Giảm từ 1rem xuống 0.75rem */
+}
+
+.table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 10px; /* Giảm từ 12px xuống 10px */
+    overflow: hidden;
+}
+
+.table th,
+.table td {
+    padding: 10px 12px; /* Giảm từ 12px 14px xuống 10px 12px */
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 13px; /* Giảm từ 14px xuống 13px */
+}
+
+.table th {
+    background: #f8fafc;
+    text-align: left;
+    color: #475569;
+    font-weight: 600;
+}
+
+.table tr:hover td {
+    background: #fafafa;
+}
+
+.table-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px; /* Giảm từ 12px xuống 10px */
+}
+
+.pagination {
+    display: flex;
+    gap: 5px; /* Giảm từ 6px xuống 5px */
+}
+
+.page-btn {
+    width: 28px; /* Giảm từ 32px xuống 28px */
+    height: 28px; /* Giảm từ 32px xuống 28px */
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    border-radius: 5px; /* Giảm từ 6px xuống 5px */
+    cursor: pointer;
+}
+
+.page-btn.active {
+    background: #1f2937;
+    color: #fff;
+    border-color: #1f2937;
+}
+
+.muted {
+    color: #64748b;
+}
+
+.status-dot {
+    width: 7px; /* Giảm từ 8px xuống 7px */
+    height: 7px; /* Giảm từ 8px xuống 7px */
+    border-radius: 9999px;
+    background: #ef4444;
+    display: inline-block;
+    margin-right: 7px; /* Giảm từ 8px xuống 7px */
+}
+
+/* CONTAINER CHÍNH - GIẢM MAX-WIDTH VÀ MARGIN */
+.container {
+    max-width: 1100px; /* Giảm từ 1300px xuống 1100px */
+    margin: 1.5rem auto; /* Giảm từ 2rem xuống 1.5rem */
+    padding: 0 1.5rem; /* Giảm từ 2rem xuống 1.5rem */
+}
+
+/* TIÊU ĐỀ - GIẢM FONT SIZE */
+h1 {
+    color: #1a2035;
+    margin-bottom: 0.4rem; /* Giảm từ 0.5rem xuống 0.4rem */
+    font-size: 2rem; /* Giảm từ 2.2rem xuống 2rem */
+    font-weight: 600;
+}
+
+p {
+    color: #666;
+    margin-bottom: 2rem; /* Giảm từ 2.5rem xuống 2rem */
+    font-size: 1rem; /* Giảm từ 1.1rem xuống 1rem */
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .charts-grid {
+        grid-template-columns: 55% 40%;
+        gap: 1.25rem; /* Giảm từ 1.5rem xuống 1.25rem */
+    }
+}
+
+@media (max-width: 992px) {
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .charts-side-column .chart-container {
+        height: auto;
+    }
+
+    .charts-side-column {
+        height: auto;
+    }
+}
+
+.device-controls-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Giảm từ 12px xuống 10px */
+    margin-top: 14px; /* Giảm từ 16px xuống 14px */
+}
+
+.control-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px; /* Giảm từ 16px xuống 12px */
+    background: white;
+    border-radius: 10px; /* Giảm từ 12px xuống 10px */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.control-item:hover {
+    transform: translateY(-1px); /* Giảm từ -2px xuống -1px */
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.control-info {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Giảm từ 12px xuống 10px */
+    flex: 1;
+}
+
+.control-icon {
+    width: 36px; /* Giảm từ 40px xuống 36px */
+    height: 36px; /* Giảm từ 40px xuống 36px */
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 8px; /* Giảm từ 10px xuống 8px */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.control-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.control-title {
+    font-size: 14px; /* Giảm từ 16px xuống 14px */
+    font-weight: 600;
+    color: #2d3748;
+    margin: 0;
+}
+
+.control-subtitle {
+    font-size: 12px; /* Giảm từ 14px xuống 12px */
+    color: #718096;
+    margin: 0;
+}
+
+/* Toggle Switch Styles - GIẢM KÍCH CỠ */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 44px; /* Giảm từ 50px xuống 44px */
+    height: 24px; /* Giảm từ 28px xuống 24px */
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-switch label {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #cbd5e0;
+    border-radius: 24px;
+    transition: background-color 0.3s ease;
+}
+
+.toggle-switch label:before {
+    position: absolute;
+    content: "";
+    height: 18px; /* Giảm từ 22px xuống 18px */
+    width: 18px; /* Giảm từ 22px xuống 18px */
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-switch input:checked + label {
+    background-color: #4299e1;
+}
+
+.toggle-switch input:checked + label:before {
+    transform: translateX(20px); /* Giảm từ 22px xuống 20px */
+}
+
+.toggle-switch input:focus + label {
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.3);
+}
+.sensor-circle {
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Circular Progress Ring */
+.sensor-circle::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    bottom: -4px;
+    left: -4px;
+    border-radius: 50%;
+    z-index: -1;
+    transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+    opacity: 0.9;
+}
+
+/* Temperature Progress Ring */
+.sensor-circle.temperature::before {
+    background: conic-gradient(
+        from 0deg,
+        #FF6B6B 0deg,
+        #FF4B4B var(--progress-deg, 0deg),
+        rgba(238, 238, 238, 0.3) var(--progress-deg, 0deg),
+        rgba(238, 238, 238, 0.3) 360deg
+    );
+}
+
+/* Humidity Progress Ring */
+.sensor-circle.humidity::before {
+    background: conic-gradient(
+        from 0deg,
+        #4DABF7 0deg,
+        #4B83FF var(--progress-deg, 0deg),
+        rgba(238, 238, 238, 0.3) var(--progress-deg, 0deg),
+        rgba(238, 238, 238, 0.3) 360deg
+    );
+}
+
+/* Light Progress Ring */
+.sensor-circle.light::before {
+    background: conic-gradient(
+        from 0deg,
+        #FFD43B 0deg,
+        #FFB800 var(--progress-deg, 0deg),
+        rgba(238, 238, 238, 0.3) var(--progress-deg, 0deg),
+        rgba(238, 238, 238, 0.3) 360deg
+    );
+}
+
+/* Value Update Animation */
+.sensor-value.value-updating {
+    animation: valueUpdate 0.4s ease-out;
+    transform-origin: center;
+}
+
+@keyframes valueUpdate {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Progress Update Animation */
+.sensor-circle.progress-updating::before {
+    animation: progressRingUpdate 0.8s ease-out;
+}
+
+@keyframes progressRingUpdate {
+    0% {
+        transform: scale(0.95);
+        opacity: 0.7;
+    }
+    50% {
+        transform: scale(1.02);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0.9;
+    }
+}
+
+/* Value-based Effects */
+.sensor-circle.high-value::before {
+    filter: brightness(1.2) saturate(1.3);
+    animation: highValuePulse 2s ease-in-out infinite alternate;
+}
+
+.sensor-circle.low-value::before {
+    filter: brightness(0.8) saturate(0.7);
+    animation: lowValuePulse 3s ease-in-out infinite alternate;
+}
+
+.sensor-circle.medium-value::before {
+    filter: brightness(1) saturate(1);
+}
+
+/* High Value Pulse Animation */
+@keyframes highValuePulse {
+    0% {
+        filter: brightness(1.2) saturate(1.3);
+        transform: scale(1);
+    }
+    100% {
+        filter: brightness(1.4) saturate(1.5);
+        transform: scale(1.01);
+    }
+}
+
+/* Low Value Pulse Animation */
+@keyframes lowValuePulse {
+    0% {
+        filter: brightness(0.8) saturate(0.7);
+        transform: scale(1);
+    }
+    100% {
+        filter: brightness(0.9) saturate(0.8);
+        transform: scale(0.99);
+    }
+}
+
+/* Hover Enhancement */
+.sensor-circle:hover {
+    transform: scale(1.05);
+}
+
+.sensor-circle:hover::before {
+    filter: brightness(1.3) saturate(1.4) !important;
+    transform: scale(1.02) !important;
+}
+
+/* Smooth text glow effect */
+.temperature .sensor-value {
+    text-shadow: 0 0 8px rgba(255, 75, 75, 0.3);
+}
+
+.humidity .sensor-value {
+    text-shadow: 0 0 8px rgba(75, 131, 255, 0.3);
+}
+
+.light .sensor-value {
+    text-shadow: 0 0 8px rgba(255, 184, 0, 0.3);
+}
+
+/* Enhanced value updating effect */
+.sensor-value.value-updating.temperature {
+    text-shadow: 0 0 15px rgba(255, 75, 75, 0.6);
+}
+
+.sensor-value.value-updating.humidity {
+    text-shadow: 0 0 15px rgba(75, 131, 255, 0.6);
+}
+
+.sensor-value.value-updating.light {
+    text-shadow: 0 0 15px rgba(255, 184, 0, 0.6);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .control-item {
+        padding: 10px; /* Giảm từ 12px xuống 10px */
+    }
+
+    .control-icon {
+        width: 32px; /* Giảm từ 36px xuống 32px */
+        height: 32px; /* Giảm từ 36px xuống 32px */
+    }
+
+    .control-title {
+        font-size: 13px; /* Giảm từ 14px xuống 13px */
+    }
+
+    .control-subtitle {
+        font-size: 11px; /* Giảm từ 12px xuống 11px */
+    }
+
+    .toggle-switch {
+        width: 40px; /* Giảm từ 45px xuống 40px */
+        height: 22px; /* Giảm từ 25px xuống 22px */
+    }
+
+    .toggle-switch label:before {
+        height: 16px; /* Giảm từ 19px xuống 16px */
+        width: 16px; /* Giảm từ 19px xuống 16px */
+    }
+
+    .toggle-switch input:checked + label:before {
+        transform: translateX(18px); /* Giảm từ 20px xuống 18px */
+    }
+}
+
+@media (max-width: 768px) {
+    .sensor-cards {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Giảm từ 250px xuống 180px */
+    }
+
+    .container {
+        padding: 0 1rem; /* Giảm từ 1rem xuống 0.75rem */
+    }
+
+    .chart-container {
+        padding: 1rem; /* Giữ nguyên 1rem */
+    }
+}

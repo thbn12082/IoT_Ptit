@@ -1,3 +1,227 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Smart Home Dashboard</title>-->
+<!--    <link rel="stylesheet" href="styles.css">-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>-->
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>-->
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>-->
+<!--</head>-->
+
+<!--<body>-->
+<!--    <div class="navbar" style="background-color: rgb(83, 48, 236);">-->
+<!--        <a href="dashboard.html" class="active" style="color: black;">Dashboard</a>-->
+<!--        <a href="data-sensor.html" style="color: black;">Data Sensor</a>-->
+<!--        <a href="action-history.html" style="color: black;">Action History</a>-->
+<!--        <a href="profile.html" style="color: black;">Profile</a>-->
+<!--    </div>-->
+
+<!--    <div class="container">-->
+<!--        <header class="dashboard-header">-->
+<!--            <h1>Smart Home Dashboard</h1>-->
+<!--        </header>-->
+
+<!--        <div class="dashboard-grid">-->
+<!--            &lt;!&ndash; Sensor Cards Section &ndash;&gt;-->
+<!--            <section class="sensor-cards">-->
+<!--                <div class="sensor-card">-->
+<!--                    <div class="sensor-circle temperature">-->
+<!--                        <div class="sensor-icon">-->
+<!--                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"-->
+<!--                                fill="none" stroke="currentColor" stroke-width="2">-->
+<!--                                <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z" />-->
+<!--                            </svg>-->
+<!--                        </div>-->
+<!--                        <div class="sensor-value" id="temperature-value">29</div>-->
+<!--                        <div class="sensor-info">-->
+<!--                            <div class="sensor-label">Temperature</div>-->
+<!--                            <div class="sensor-range">0 - 50</div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <div class="sensor-card">-->
+<!--                    <div class="sensor-circle humidity">-->
+<!--                        <div class="sensor-icon">-->
+<!--                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"-->
+<!--                                fill="none" stroke="currentColor" stroke-width="2">-->
+<!--                                <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />-->
+<!--                            </svg>-->
+<!--                        </div>-->
+<!--                        <div class="sensor-value" id="humidity-value">47</div>-->
+<!--                        <div class="sensor-info">-->
+<!--                            <div class="sensor-label">Humidity</div>-->
+<!--                            <div class="sensor-range">0 - 100</div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <div class="sensor-card">-->
+<!--                    <div class="sensor-circle light">-->
+<!--                        <div class="sensor-icon">-->
+<!--                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"-->
+<!--                                fill="none" stroke="currentColor" stroke-width="2">-->
+<!--                                <circle cx="12" cy="12" r="5" />-->
+<!--                                <path-->
+<!--                                    d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />-->
+<!--                            </svg>-->
+<!--                        </div>-->
+<!--                        <div class="sensor-value" id="light-value">100</div>-->
+<!--                        <div class="sensor-info">-->
+<!--                            <div class="sensor-label">Light</div>-->
+<!--                            <div class="sensor-range">0 - 100</div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </section>-->
+
+<!--            &lt;!&ndash; Charts Section &ndash;&gt;-->
+<!--            <section class="charts-grid">-->
+<!--                <div class="charts-main-column">-->
+<!--                    <div class="chart-container temperature-chart">-->
+<!--                        <h3>Temperature History</h3>-->
+<!--                        <canvas id="temperatureChart"></canvas>-->
+<!--                    </div>-->
+<!--                    <div class="chart-container humidity-chart">-->
+<!--                        <h3>Humidity History</h3>-->
+<!--                        <canvas id="humidityChart"></canvas>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="charts-side-column">-->
+<!--                    <div class="device-section">-->
+<!--                        <h3>Device Controls</h3>-->
+<!--                        <div class="device-controls-grid">-->
+<!--                            <div class="control-item">-->
+<!--                                <div class="control-info">-->
+<!--                                    <div class="control-icon"> <svg viewBox="0 0 24 24" fill="none"-->
+<!--                                            xmlns="http://www.w3.org/2000/svg">-->
+<!--                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>-->
+<!--                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"-->
+<!--                                                stroke-linejoin="round"></g>-->
+<!--                                            <g id="SVGRepo_iconCarrier">-->
+<!--                                                <path-->
+<!--                                                    d="M18.1957 8.80413C18.9727 9.22817 19.4998 10.0526 19.4998 11.0001C19.4998 12.3808 18.3805 13.5001 16.9998 13.5001C16.0523 13.5001 15.2279 12.973 14.8039 12.196M18.1957 8.80413L20.9998 6.00006L15.9998 6.00006L13.9998 4.00006C12.8952 2.89549 11.1044 2.89549 9.99981 4.00006C8.89524 5.10463 8.89524 6.89549 9.99981 8.00006L11.9998 10.0001L11.9998 15.0001L14.8039 12.196M18.1957 8.80413L14.8039 12.196M8.99951 20.9998L6.99951 11.9998L10.4995 8.49976M2.99951 20.9998L14.9995 20.9998"-->
+<!--                                                    stroke="#000000" stroke-width="2" stroke-linecap="round"-->
+<!--                                                    stroke-linejoin="round"></path>-->
+<!--                                            </g>-->
+<!--                                        </svg></div>-->
+<!--                                    <div class="control-text">-->
+<!--                                        <p class="control-title">Đèn</p>-->
+<!--                                        <p class="control-subtitle">Bật/tắt đèn</p>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <button class="device-btn led-btn" data-led="1" aria-pressed="false">-->
+<!--                                    <span class="btn-main">-->
+<!--                                        <span class="btn-label">LED 1</span>-->
+<!--                                    </span>-->
+
+<!--                                </button>-->
+<!--                            </div>-->
+
+<!--                            <div class="control-item">-->
+<!--                                <div class="control-info">-->
+<!--                                    <div class="control-icon"> <svg viewBox="0 0 400 400" fill="none"-->
+<!--                                            xmlns="http://www.w3.org/2000/svg">-->
+<!--                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>-->
+<!--                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"-->
+<!--                                                stroke-linejoin="round"></g>-->
+<!--                                            <g id="SVGRepo_iconCarrier">-->
+<!--                                                <path opacity="0.503384"-->
+<!--                                                    d="M154.096 124.583C168.492 108.233 189.038 99.4786 210.098 101.218C299.917 108.629 296.01 237.152 217.564 263.452C107.445 300.375 113.386 156.857 150.984 124.583"-->
+<!--                                                    stroke="#000000" stroke-opacity="0.9" stroke-width="16"-->
+<!--                                                    stroke-linecap="round" stroke-linejoin="round"></path>-->
+<!--                                                <path opacity="0.503384"-->
+<!--                                                    d="M173.956 150.293C181.324 142.172 189.281 137.207 199.605 134.723C249.649 122.691 248.421 185.463 222.752 213.241C196.322 241.838 156.547 205.896 162.695 172.628"-->
+<!--                                                    stroke="#000000" stroke-opacity="0.9" stroke-width="16"-->
+<!--                                                    stroke-linecap="round" stroke-linejoin="round"></path>-->
+<!--                                                <path-->
+<!--                                                    d="M196.606 172.231C196.223 160.879 194.145 147.833 197.22 136.663C221.773 47.4913 238.064 157.027 195.374 180.283"-->
+<!--                                                    stroke="#000000" stroke-opacity="0.9" stroke-width="16"-->
+<!--                                                    stroke-linecap="round" stroke-linejoin="round"></path>-->
+<!--                                                <path-->
+<!--                                                    d="M208.232 181.011C221.296 177.33 273.492 176.16 273.492 202.297C273.492 211.187 226.263 219.925 198.82 182.384"-->
+<!--                                                    stroke="#000000" stroke-opacity="0.9" stroke-width="16"-->
+<!--                                                    stroke-linecap="round" stroke-linejoin="round"></path>-->
+<!--                                                <path-->
+<!--                                                    d="M197.435 180.283C209.788 200.69 189.132 261.382 164.194 256.848C152.876 254.79 163.559 195.514 192.511 184.985"-->
+<!--                                                    stroke="#000000" stroke-opacity="0.9" stroke-width="16"-->
+<!--                                                    stroke-linecap="round" stroke-linejoin="round"></path>-->
+<!--                                                <path-->
+<!--                                                    d="M183.625 188.103C172.57 198.365 119.9 190.872 123.144 170.323C128.066 139.124 179.312 152.737 194.225 171.64"-->
+<!--                                                    stroke="#000000" stroke-opacity="0.9" stroke-width="16"-->
+<!--                                                    stroke-linecap="round" stroke-linejoin="round"></path>-->
+<!--                                                <path d="M210.613 237.269C214.99 257.35 227.535 279.166 214.749 297.97"-->
+<!--                                                    stroke="#000000" stroke-opacity="0.9" stroke-width="16"-->
+<!--                                                    stroke-linecap="round" stroke-linejoin="round"></path>-->
+<!--                                                <path-->
+<!--                                                    d="M194.225 299.183C207.276 298.891 232.761 297.996 240.176 297.996"-->
+<!--                                                    stroke="#000000" stroke-opacity="0.9" stroke-width="16"-->
+<!--                                                    stroke-linecap="round" stroke-linejoin="round"></path>-->
+<!--                                            </g>-->
+<!--                                        </svg></div>-->
+<!--                                    <div class="control-text">-->
+<!--                                        <p class="control-title">Quạt</p>-->
+<!--                                        <p class="control-subtitle">Bật/tắt quạt</p>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <button class="device-btn led-btn" data-led="2" aria-pressed="false">-->
+<!--                                    <span class="btn-main"><span class="btn-label">LED 2</span></span>-->
+
+<!--                                </button>-->
+<!--                            </div>-->
+
+<!--                            <div class="control-item">-->
+<!--                                <div class="control-info">-->
+<!--                                    <div class="control-icon"> <svg viewBox="0 0 1024 1024" fill="#000000" class="icon"-->
+<!--                                            version="1.1" xmlns="http://www.w3.org/2000/svg">-->
+<!--                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>-->
+<!--                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"-->
+<!--                                                stroke-linejoin="round"></g>-->
+<!--                                            <g id="SVGRepo_iconCarrier">-->
+<!--                                                <path-->
+<!--                                                    d="M383.2 941.6c-4 0-6.4-0.8-9.6-2.4-14.4-9.6-82.4-60-25.6-160 15.2-27.2 19.2-48.8 13.6-66.4-6.4-20-27.2-28-27.2-28-9.6-4-14.4-15.2-10.4-24.8 3.2-8 9.6-12.8 17.6-12.8 2.4 0 4.8 0.8 7.2 1.6 3.2 0 36.8 14.4 50.4 50.4 10.4 28.8 4.8 62.4-16.8 100-40 70.4 2.4 101.6 11.2 107.2 8.8 4.8 12 16.8 7.2 26.4-4.8 6.4-12 8.8-17.6 8.8z m129.6-42.4c-4 0-6.4-0.8-9.6-2.4-28.8-16.8-69.6-68.8-24-150.4 13.6-24.8 17.6-44.8 12-60-5.6-17.6-24-24.8-24-24.8-10.4-4-15.2-14.4-11.2-24.8 3.2-8 9.6-12.8 17.6-12.8 2.4 0 4.8 0.8 7.2 1.6 8 3.2 36 16 47.2 48 9.6 27.2 4.8 58.4-15.2 92.8-38.4 68.8 8 96.8 10.4 97.6 4 2.4 7.2 6.4 8.8 11.2 1.6 4.8 0.8 10.4-1.6 15.2-4.8 6.4-12 8.8-17.6 8.8z m-265.6 0c-4 0-6.4-0.8-9.6-2.4-28.8-16.8-69.6-68.8-24-150.4 13.6-24.8 17.6-44.8 12-60-5.6-17.6-24-24.8-24-24.8-10.4-4-15.2-14.4-11.2-24.8 3.2-8 9.6-12.8 17.6-12.8 2.4 0 4.8 0.8 7.2 1.6 8 3.2 36 16.8 47.2 48 9.6 27.2 4 58.4-15.2 93.6-38.4 68.8 8 96.8 10.4 97.6 4 2.4 7.2 6.4 8.8 11.2 1.6 4.8 0.8 10.4-1.6 15.2-4 5.6-12 8-17.6 8z m487.2-71.2c-6.4 0-11.2-2.4-15.2-6.4s-6.4-9.6-6.4-15.2c0-8.8 5.6-16.8 13.6-20.8h0.8v-43.2l-40.8 23.2v0.8c0 6.4-2.4 14.4-10.4 18.4-3.2 2.4-7.2 3.2-11.2 3.2-8 0-15.2-4-18.4-10.4-3.2-5.6-4-11.2-2.4-16.8 1.6-5.6 4.8-10.4 10.4-12.8 3.2-2.4 7.2-3.2 10.4-3.2 4 0 8 0.8 11.2 3.2l36.8-20.8-36-20.8c-4.8 1.6-8.8 2.4-12 2.4-4 0-7.2-0.8-10.4-2.4-9.6-6.4-13.6-20-8-29.6 4-6.4 11.2-10.4 19.2-10.4 4 0 8 0.8 11.2 3.2 6.4 4 10.4 10.4 10.4 18.4v0.8L728 712v-43.2h-0.8c-8-4-13.6-12-13.6-20.8 0-12 9.6-21.6 21.6-21.6 6.4 0 12 2.4 16 6.4s6.4 9.6 6.4 15.2c0 7.2-4 14.4-11.2 18.4H744v41.6l35.2-20v-0.8c0-6.4 2.4-14.4 10.4-18.4 3.2-2.4 7.2-3.2 11.2-3.2 8 0 15.2 4 18.4 10.4 3.2 5.6 4 11.2 2.4 16.8-1.6 5.6-4.8 10.4-10.4 12.8-3.2 2.4-7.2 3.2-10.4 3.2-4 0-8-0.8-11.2-3.2l-36.8 20.8 36 20.8c4.8-1.6 8.8-2.4 12-2.4 4 0 7.2 0.8 10.4 2.4 9.6 6.4 13.6 20 8 29.6-4 6.4-11.2 10.4-19.2 10.4-4 0-8-0.8-11.2-3.2-6.4-4-10.4-10.4-10.4-18.4v-0.8L744 745.6v41.6h0.8c7.2 3.2 11.2 10.4 11.2 18.4 0 12.8-9.6 22.4-21.6 22.4zM152 575.2c-60.8 0-109.6-48.8-109.6-109.6V204.8c0-60.8 48.8-109.6 109.6-109.6h721.6c60.8 0 109.6 48.8 109.6 109.6v260.8c0 60.8-48.8 109.6-109.6 109.6H152z m-11.2-432c-28.8 0-52 24-52 54.4v278.4c0 29.6 23.2 54.4 52 54.4h743.2c28.8 0 52-24 52-54.4V197.6c0-29.6-23.2-54.4-52-54.4H140.8z m21.6 312c-10.4 0-19.2-8.8-19.2-19.2 0-10.4 8.8-19.2 19.2-19.2h682.4c10.4 0 19.2 8.8 19.2 19.2 0 10.4-8.8 19.2-19.2 19.2H162.4z m0-80.8c-10.4 0-19.2-8.8-19.2-19.2S152 336 162.4 336h682.4c10.4 0 19.2 8.8 19.2 19.2 0 10.4-8.8 19.2-19.2 19.2H162.4z"-->
+<!--                                                    fill=""></path>-->
+<!--                                            </g>-->
+<!--                                        </svg></div>-->
+<!--                                    <div class="control-text">-->
+<!--                                        <p class="control-title">Điều hòa</p>-->
+<!--                                        <p class="control-subtitle">Bật/tắt điều hòa</p>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <button class="device-btn led-btn" data-led="3" aria-pressed="false">-->
+<!--                                    <span class="btn-main"><span class="btn-label">LED-->
+<!--                                            3</span></span>-->
+
+<!--                                </button>-->
+<!--                            </div>-->
+
+
+
+
+<!--                        </div>-->
+<!--                    </div>-->
+
+
+
+<!--                    <div class="chart-container light-chart">-->
+<!--                        <h3>Light Level History</h3>-->
+<!--                        <canvas id="lightChart"></canvas>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </section>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <script src="script.js"></script>-->
+<!--</body>-->
+
+<!--</html>-->
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,223 +229,541 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Home Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles_updated.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <style>
+        .chart-container canvas {
+    width: 100% !important;
+    height: 500px !important;
+    max-width: none !important;
+}
+
+    </style>
 </head>
 
 <body>
-    <div class="navbar" style="background-color: rgb(83, 48, 236);">
-        <a href="dashboard.html" class="active" style="color: black;">Dashboard</a>
-        <a href="data-sensor.html" style="color: black;">Data Sensor</a>
-        <a href="action-history.html" style="color: black;">Action History</a>
-        <a href="profile.html" style="color: black;">Profile</a>
-    </div>
+<div class="navbar" style="background-color: rgb(83, 48, 236);">
+    <a href="dashboard.html" class="active" style="color: black;">Dashboard</a>
+    <a href="data-sensor.html" style="color: black;">Data Sensor</a>
+    <a href="action-history.html" style="color: black;">Action History</a>
+    <a href="profile.html" style="color: black;">Profile</a>
+</div>
 
-    <div class="container">
-        <header class="dashboard-header">
-            <h1>Smart Home Dashboard</h1>
-        </header>
+<div class="container">
 
-        <div class="dashboard-grid">
-            <!-- Sensor Cards Section -->
-            <section class="sensor-cards">
-                <div class="sensor-card">
-                    <div class="sensor-circle temperature">
-                        <div class="sensor-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z" />
-                            </svg>
-                        </div>
-                        <div class="sensor-value" id="temperature-value">29</div>
-                        <div class="sensor-info">
-                            <div class="sensor-label">Temperature</div>
-                            <div class="sensor-range">0 - 50</div>
-                        </div>
+    <div class="dashboard-grid">
+        <!-- Sensor Cards Section -->
+        <section class="sensor-cards">
+            <div class="sensor-card">
+                <div class="sensor-circle temperature">
+                    <div class="sensor-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                             fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z" />
+                        </svg>
+                    </div>
+                    <div class="sensor-value" id="temperature-value">29</div>
+                    <div class="sensor-info">
+                        <div class="sensor-label">Temperature</div>
+                        <div class="sensor-range">0 - 50</div>
                     </div>
                 </div>
+            </div>
 
-                <div class="sensor-card">
-                    <div class="sensor-circle humidity">
-                        <div class="sensor-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
-                            </svg>
-                        </div>
-                        <div class="sensor-value" id="humidity-value">47</div>
-                        <div class="sensor-info">
-                            <div class="sensor-label">Humidity</div>
-                            <div class="sensor-range">0 - 100</div>
-                        </div>
+            <div class="sensor-card">
+                <div class="sensor-circle humidity">
+                    <div class="sensor-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                             fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
+                        </svg>
+                    </div>
+                    <div class="sensor-value" id="humidity-value">47</div>
+                    <div class="sensor-info">
+                        <div class="sensor-label">Humidity</div>
+                        <div class="sensor-range">0 - 100</div>
                     </div>
                 </div>
+            </div>
 
-                <div class="sensor-card">
-                    <div class="sensor-circle light">
-                        <div class="sensor-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="5" />
-                                <path
+            <div class="sensor-card">
+                <div class="sensor-circle light">
+                    <div class="sensor-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                             fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="5" />
+                            <path
                                     d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-                            </svg>
+                        </svg>
+                    </div>
+                    <div class="sensor-value" id="light-value">100</div>
+                    <div class="sensor-info">
+                        <div class="sensor-label">Light</div>
+                        <div class="sensor-range">0 - 100</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Device Controls Section -->
+            <section class="device-section">
+
+                <div class="device-controls-grid">
+                    <div class="control-item">
+                        <div class="control-info">
+                            <div class="control-icon">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <path d="M18.1957 8.80413C18.9727 9.22817 19.4998 10.0526 19.4998 11.0001C19.4998 12.3808 18.3805 13.5001 16.9998 13.5001C16.0523 13.5001 15.2279 12.973 14.8039 12.196M18.1957 8.80413L20.9998 6.00006L15.9998 6.00006L13.9998 4.00006C12.8952 2.89549 11.1044 2.89549 9.99981 4.00006C8.89524 5.10463 8.89524 6.89549 9.99981 8.00006L11.9998 10.0001L11.9998 15.0001L14.8039 12.196M18.1957 8.80413L14.8039 12.196M8.99951 20.9998L6.99951 11.9998L10.4995 8.49976M2.99951 20.9998L14.9995 20.9998" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="control-text">
+                                <p class="control-title">Đèn</p>
+                                <p class="control-subtitle">Bật/tắt đèn</p>
+                            </div>
                         </div>
-                        <div class="sensor-value" id="light-value">100</div>
-                        <div class="sensor-info">
-                            <div class="sensor-label">Light</div>
-                            <div class="sensor-range">0 - 100</div>
+                        <button class="device-btn led-btn" data-led="1" aria-pressed="false">
+                <span class="btn-main">
+                    <span class="btn-label">LED 1</span>
+                </span>
+                        </button>
+                    </div>
+
+                    <div class="control-item">
+                        <div class="control-info">
+                            <div class="control-icon">
+                                <svg fill="#000000" height="200px" width="200px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 508 508" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M318.9,128.5c-9.7,0-27.8,5.8-45.1,14.1c6.8-24.5,7.7-51.4,7.7-51.8c0-23.6-22.5-42.1-51.3-42.1s-51.3,18.5-51.3,42.1 c0,9,5.7,27.4,14.2,45.3c-24.5-6.8-51.3-7.6-51.7-7.6c-23.6,0-42.1,22.5-42.1,51.3s18.5,51.3,42.1,51.3c9.7,0,27.8-5.8,45-14.1 c-6.7,24.4-7.5,51-7.5,51.4c0,23.6,22.5,42.1,51.3,42.1s51.2-18.5,51.2-42.1c0-9.6-5.8-27.7-14-44.9c24.4,6.8,51.1,7.6,51.5,7.6 c23.6,0,42.1-22.5,42.1-51.3S342.5,128.5,318.9,128.5z M195.7,179.2c-17.1,12.6-47,23.6-54.3,23.7c-6.6,0-13.9-9.9-13.9-23.1 s7.3-23.1,13.9-23.1c15,0,42.9,4.9,56.6,10.8C197.9,167.7,195.7,173.7,195.7,179.2z M230.1,282.3c-13.1,0-23-7.3-23-13.9 c0-15,4.9-42.6,10.7-56.4c3.7,1.5,7.8,2.3,11.9,2.3c12.6,17.2,23.5,46.9,23.5,54.1C253.2,275,243.3,282.3,230.1,282.3z M223.8,179.6c0-3.5,2.8-6.3,6.3-6.3c3.5,0.1,6.3,2.9,6.3,6.3c0,3.5-2.8,6.3-6.3,6.3S223.8,183.1,223.8,179.6z M242.5,147.5 c-3.6-1.4-7.5-2.2-11.6-2.3c-12.7-17.1-23.7-47-23.7-54.3c-0.1-6.6,9.8-13.9,23-13.9s23.1,7.3,23.1,13.9 C253.3,106,248.4,133.9,242.5,147.5z M319,202.9c-15,0-42.9-4.9-56.6-10.8c1.4-3.7,2.2-7.6,2.3-11.7c17.1-12.6,47-23.6,54.3-23.7 c6.6,0,13.9,9.9,13.9,23.1S325.6,202.9,319,202.9z"></path> </g> </g> <g> <g> <path d="M443.4,402.2c-35.3,0-85.7,12.6-109,19c0,0-2.6-12-14.3-12h-28.8l-10.8-57.1c74.7-21.8,129.4-90.8,129.4-172.4 C409.8,80.6,329.2,0,230.2,0S50.5,80.6,50.5,179.6c0,81.6,54.7,150.7,129.4,172.4l-10.8,57.1h-28.8c-5.8,0-11.1,3.6-13.2,9 L100,488.8c-1.7,4.3-1.2,19.2,13.2,19.2h234h0.1c17.6,0,13.5-18.9,12.4-20.9l-15.1-39.4c23.1-6.2,68.4-17.3,98.8-17.3 c7.8,0,14.1-6.3,14.1-14.1C457.5,408.5,451.1,402.2,443.4,402.2z M78.8,179.6c0-83.5,67.9-151.4,151.4-151.4 s151.4,67.9,151.4,151.4S313.7,331,230.2,331S78.8,263.1,78.8,179.6z M262.5,409.2h-64.6l9.8-51.4c7.4,0.9,14.9,1.5,22.6,1.5 c7.6,0,15.2-0.5,22.6-1.5L262.5,409.2z M133.7,479.8l16.3-42.3h160.3l16.3,42.3H133.7z"></path> </g> </g> </g></svg>
+                            </div>
+                            <div class="control-text">
+                                <p class="control-title">Quạt</p>
+                                <p class="control-subtitle">Bật/tắt quạt</p>
+                            </div>
                         </div>
+                        <button class="device-btn led-btn" data-led="2" aria-pressed="false">
+                            <span class="btn-main"><span class="btn-label">LED 2</span></span>
+                        </button>
+                    </div>
+
+                    <div class="control-item">
+                        <div class="control-info">
+                            <div class="control-icon">
+                                <svg fill="#000000" height="200px" width="200px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M472.376,98.218H39.624C17.775,98.218,0,115.993,0,137.842v236.316c0,21.849,17.775,39.624,39.624,39.624h432.752 c21.849,0,39.624-17.775,39.624-39.624V137.842C512,115.993,494.225,98.218,472.376,98.218z M491.602,374.158 c0,10.601-8.624,19.226-19.226,19.226H39.624c-10.601,0-19.226-8.624-19.226-19.226V137.842c0-10.601,8.624-19.225,19.226-19.225 h432.752c10.601,0,19.226,8.624,19.226,19.225V374.158z"></path> </g> </g> <g> <g> <path d="M458.964,143.809H53.036c-5.633,0-10.199,4.566-10.199,10.199v95.872c0,5.633,4.566,10.199,10.199,10.199h405.928 c5.633,0,10.199-4.566,10.199-10.199v-95.872C469.163,148.375,464.597,143.809,458.964,143.809z M448.765,239.681H63.235v-75.474 h385.53V239.681z"></path> </g> </g> <g> <g> <path d="M458.964,327.394h-7.139c-5.633,0-10.199,4.566-10.199,10.199c0,5.633,4.566,10.199,10.199,10.199h7.139 c5.633,0,10.199-4.566,10.199-10.199C469.163,331.961,464.597,327.394,458.964,327.394z"></path> </g> </g> <g> <g> <path d="M416.128,327.394H204.362c-4.823-15.916-19.625-27.538-37.096-27.538c-17.47,0-32.272,11.622-37.096,27.538H53.036 c-5.633,0-10.199,4.566-10.199,10.199c0,5.633,4.566,10.199,10.199,10.199h76.582c4.135,16.953,19.442,29.578,37.649,29.578 c18.208,0,33.515-12.625,37.649-29.578h211.211c5.633,0,10.199-4.566,10.199-10.199 C426.327,331.961,421.761,327.394,416.128,327.394z M167.267,356.972c-10.123,0-18.359-8.236-18.359-18.359 c0-10.123,8.236-18.359,18.359-18.359c10.123,0,18.359,8.236,18.359,18.359C185.625,348.736,177.39,356.972,167.267,356.972z"></path> </g> </g> <g> <g> <path d="M90.773,285.068H63.235c-5.633,0-10.199,4.566-10.199,10.199c0,5.633,4.566,10.199,10.199,10.199h27.538 c5.633,0,10.199-4.566,10.199-10.199C100.972,289.634,96.406,285.068,90.773,285.068z"></path> </g> </g> <g> <g> <path d="M449.785,285.068h-3.57v-3.57c0-5.633-4.566-10.199-10.199-10.199c-5.633,0-10.199,4.566-10.199,10.199v3.57h-3.57 c-5.633,0-10.199,4.566-10.199,10.199c0,5.633,4.566,10.199,10.199,10.199h3.57v3.57c0,5.633,4.566,10.199,10.199,10.199 c5.633,0,10.199-4.566,10.199-10.199v-3.57h3.57c5.633,0,10.199-4.566,10.199-10.199 C459.984,289.634,455.418,285.068,449.785,285.068z"></path> </g> </g> <g> <g> <path d="M384.841,219.46h-19.307v-0.663c0-6.706,22.771-11.938,22.771-27.929c0-9.874-8.622-15.254-17.169-15.254 c-8.401,0-16.654,5.159-16.654,14.148c0,4.643,2.21,5.969,5.159,5.969c3.758,0,6.042-2.063,6.042-4.2 c0-4.053,2.579-5.527,5.527-5.527c4.127,0,5.6,2.874,5.6,5.232c0,9.359-23.212,15.99-23.212,27.56v7.148 c0,2.137,2.949,3.537,5.011,3.537h26.233c1.842,0,3.464-2.431,3.464-5.084S386.683,219.46,384.841,219.46z"></path> </g> </g> <g> <g> <path d="M419.846,201.038c3.685-1.695,5.674-6.706,5.674-12.085c0-9.948-7.074-13.338-16.433-13.338 c-12.675,0-16.801,7.442-16.801,13.191c0,3.537,0.663,4.643,5.969,4.643c4.274,0,5.379-1.695,5.379-4.2 c0-2.874,1.842-3.758,5.454-3.758c3.021,0,5.453,1.031,5.453,5.306c0,5.97-2.948,6.338-5.748,6.338 c-2.506,0-3.316,2.21-3.316,4.421s0.811,4.421,3.316,4.421c4.053,0,7.074,0.958,7.074,5.895v1.4c0,4.79-1.769,6.632-6.779,6.632 c-3.316,0-6.558-0.811-6.558-4.273c0-2.801-1.179-3.832-5.895-3.832c-4.053,0-5.452,0.884-5.452,4.201 c0.001,6.188,4.864,13.926,17.539,13.926c10.316,0,18.643-4.568,18.643-16.654v-1.4 C427.363,205.902,424.195,202.659,419.846,201.038z"></path> </g> </g> </g></svg>
+                            </div>
+                            <div class="control-text">
+                                <p class="control-title">Điều hòa</p>
+                                <p class="control-subtitle">Bật/tắt điều hòa</p>
+                            </div>
+                        </div>
+                        <button class="device-btn led-btn" data-led="3" aria-pressed="false">
+                            <span class="btn-main"><span class="btn-label">LED 3</span></span>
+                        </button>
                     </div>
                 </div>
             </section>
 
-            <!-- Charts Section -->
-            <section class="charts-grid">
-                <div class="charts-main-column">
-                    <div class="chart-container temperature-chart">
-                        <h3>Temperature History</h3>
-                        <canvas id="temperatureChart"></canvas>
-                    </div>
-                    <div class="chart-container humidity-chart">
-                        <h3>Humidity History</h3>
-                        <canvas id="humidityChart"></canvas>
-                    </div>
-                </div>
-                <div class="charts-side-column">
+        </section>
 
-
-
-
-
-
-
-
-
-                    <div class="device-section">
-                        <h3>Device Controls</h3>
-                        <div class="device-controls-grid">
-                            <!-- Đèn (led1) -->
-                            <div class="control-item">
-                                <div class="control-info">
-                                    <div class="control-icon">
-                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
-                                                stroke-linejoin="round"></g>
-                                            <g id="SVGRepo_iconCarrier">
-                                                <path
-                                                    d="M18.1957 8.80413C18.9727 9.22817 19.4998 10.0526 19.4998 11.0001C19.4998 12.3808 18.3805 13.5001 16.9998 13.5001C16.0523 13.5001 15.2279 12.973 14.8039 12.196M18.1957 8.80413L20.9998 6.00006L15.9998 6.00006L13.9998 4.00006C12.8952 2.89549 11.1044 2.89549 9.99981 4.00006C8.89524 5.10463 8.89524 6.89549 9.99981 8.00006L11.9998 10.0001L11.9998 15.0001L14.8039 12.196M18.1957 8.80413L14.8039 12.196M8.99951 20.9998L6.99951 11.9998L10.4995 8.49976M2.99951 20.9998L14.9995 20.9998"
-                                                    stroke="#000000" stroke-width="2" stroke-linecap="round"
-                                                    stroke-linejoin="round"></path>
-                                            </g>
-                                        </svg>
-                                    </div>
-                                    <div class="control-text">
-                                        <div class="control-title">Đèn</div>
-                                    </div>
-                                </div>
-                                <div class="toggle-switch">
-                                    <button class="device-btn led-btn">LED 1</button>
-                                </div>
-                            </div>
-
-                            <!-- Quạt (led2) -->
-                            <div class="control-item">
-                                <div class="control-info">
-                                    <div class="control-icon">
-                                        <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
-                                                stroke-linejoin="round"></g>
-                                            <g id="SVGRepo_iconCarrier">
-                                                <path opacity="0.503384"
-                                                    d="M154.096 124.583C168.492 108.233 189.038 99.4786 210.098 101.218C299.917 108.629 296.01 237.152 217.564 263.452C107.445 300.375 113.386 156.857 150.984 124.583"
-                                                    stroke="#000000" stroke-opacity="0.9" stroke-width="16"
-                                                    stroke-linecap="round" stroke-linejoin="round"></path>
-                                                <path opacity="0.503384"
-                                                    d="M173.956 150.293C181.324 142.172 189.281 137.207 199.605 134.723C249.649 122.691 248.421 185.463 222.752 213.241C196.322 241.838 156.547 205.896 162.695 172.628"
-                                                    stroke="#000000" stroke-opacity="0.9" stroke-width="16"
-                                                    stroke-linecap="round" stroke-linejoin="round"></path>
-                                                <path
-                                                    d="M196.606 172.231C196.223 160.879 194.145 147.833 197.22 136.663C221.773 47.4913 238.064 157.027 195.374 180.283"
-                                                    stroke="#000000" stroke-opacity="0.9" stroke-width="16"
-                                                    stroke-linecap="round" stroke-linejoin="round"></path>
-                                                <path
-                                                    d="M208.232 181.011C221.296 177.33 273.492 176.16 273.492 202.297C273.492 211.187 226.263 219.925 198.82 182.384"
-                                                    stroke="#000000" stroke-opacity="0.9" stroke-width="16"
-                                                    stroke-linecap="round" stroke-linejoin="round"></path>
-                                                <path
-                                                    d="M197.435 180.283C209.788 200.69 189.132 261.382 164.194 256.848C152.876 254.79 163.559 195.514 192.511 184.985"
-                                                    stroke="#000000" stroke-opacity="0.9" stroke-width="16"
-                                                    stroke-linecap="round" stroke-linejoin="round"></path>
-                                                <path
-                                                    d="M183.625 188.103C172.57 198.365 119.9 190.872 123.144 170.323C128.066 139.124 179.312 152.737 194.225 171.64"
-                                                    stroke="#000000" stroke-opacity="0.9" stroke-width="16"
-                                                    stroke-linecap="round" stroke-linejoin="round"></path>
-                                                <path d="M210.613 237.269C214.99 257.35 227.535 279.166 214.749 297.97"
-                                                    stroke="#000000" stroke-opacity="0.9" stroke-width="16"
-                                                    stroke-linecap="round" stroke-linejoin="round"></path>
-                                                <path
-                                                    d="M194.225 299.183C207.276 298.891 232.761 297.996 240.176 297.996"
-                                                    stroke="#000000" stroke-opacity="0.9" stroke-width="16"
-                                                    stroke-linecap="round" stroke-linejoin="round"></path>
-                                            </g>
-                                        </svg>
-                                    </div>
-                                    <div class="control-text">
-                                        <div class="control-title">Quạt</div>
-                                    </div>
-                                </div>
-                                <div class="toggle-switch">
-                                    <button class="device-btn led-btn">LED 2</button>
-                                </div>
-                            </div>
-
-                            <!-- Điều hòa (led3) -->
-                            <div class="control-item">
-                                <div class="control-info">
-                                    <div class="control-icon">
-                                        <svg viewBox="0 0 1024 1024" fill="#000000" class="icon" version="1.1"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
-                                                stroke-linejoin="round"></g>
-                                            <g id="SVGRepo_iconCarrier">
-                                                <path
-                                                    d="M383.2 941.6c-4 0-6.4-0.8-9.6-2.4-14.4-9.6-82.4-60-25.6-160 15.2-27.2 19.2-48.8 13.6-66.4-6.4-20-27.2-28-27.2-28-9.6-4-14.4-15.2-10.4-24.8 3.2-8 9.6-12.8 17.6-12.8 2.4 0 4.8 0.8 7.2 1.6 3.2 0 36.8 14.4 50.4 50.4 10.4 28.8 4.8 62.4-16.8 100-40 70.4 2.4 101.6 11.2 107.2 8.8 4.8 12 16.8 7.2 26.4-4.8 6.4-12 8.8-17.6 8.8z m129.6-42.4c-4 0-6.4-0.8-9.6-2.4-28.8-16.8-69.6-68.8-24-150.4 13.6-24.8 17.6-44.8 12-60-5.6-17.6-24-24.8-24-24.8-10.4-4-15.2-14.4-11.2-24.8 3.2-8 9.6-12.8 17.6-12.8 2.4 0 4.8 0.8 7.2 1.6 8 3.2 36 16 47.2 48 9.6 27.2 4.8 58.4-15.2 92.8-38.4 68.8 8 96.8 10.4 97.6 4 2.4 7.2 6.4 8.8 11.2 1.6 4.8 0.8 10.4-1.6 15.2-4.8 6.4-12 8.8-17.6 8.8z m-265.6 0c-4 0-6.4-0.8-9.6-2.4-28.8-16.8-69.6-68.8-24-150.4 13.6-24.8 17.6-44.8 12-60-5.6-17.6-24-24.8-24-24.8-10.4-4-15.2-14.4-11.2-24.8 3.2-8 9.6-12.8 17.6-12.8 2.4 0 4.8 0.8 7.2 1.6 8 3.2 36 16.8 47.2 48 9.6 27.2 4 58.4-15.2 93.6-38.4 68.8 8 96.8 10.4 97.6 4 2.4 7.2 6.4 8.8 11.2 1.6 4.8 0.8 10.4-1.6 15.2-4 5.6-12 8-17.6 8z m487.2-71.2c-6.4 0-11.2-2.4-15.2-6.4s-6.4-9.6-6.4-15.2c0-8.8 5.6-16.8 13.6-20.8h0.8v-43.2l-40.8 23.2v0.8c0 6.4-2.4 14.4-10.4 18.4-3.2 2.4-7.2 3.2-11.2 3.2-8 0-15.2-4-18.4-10.4-3.2-5.6-4-11.2-2.4-16.8 1.6-5.6 4.8-10.4 10.4-12.8 3.2-2.4 7.2-3.2 10.4-3.2 4 0 8 0.8 11.2 3.2l36.8-20.8-36-20.8c-4.8 1.6-8.8 2.4-12 2.4-4 0-7.2-0.8-10.4-2.4-9.6-6.4-13.6-20-8-29.6 4-6.4 11.2-10.4 19.2-10.4 4 0 8 0.8 11.2 3.2 6.4 4 10.4 10.4 10.4 18.4v0.8L728 712v-43.2h-0.8c-8-4-13.6-12-13.6-20.8 0-12 9.6-21.6 21.6-21.6 6.4 0 12 2.4 16 6.4s6.4 9.6 6.4 15.2c0 7.2-4 14.4-11.2 18.4H744v41.6l35.2-20v-0.8c0-6.4 2.4-14.4 10.4-18.4 3.2-2.4 7.2-3.2 11.2-3.2 8 0 15.2 4 18.4 10.4 3.2 5.6 4 11.2 2.4 16.8-1.6 5.6-4.8 10.4-10.4 12.8-3.2 2.4-7.2 3.2-10.4 3.2-4 0-8-0.8-11.2-3.2l-36.8 20.8 36 20.8c4.8-1.6 8.8-2.4 12-2.4 4 0 7.2 0.8 10.4 2.4 9.6 6.4 13.6 20 8 29.6-4 6.4-11.2 10.4-19.2 10.4-4 0-8-0.8-11.2-3.2-6.4-4-10.4-10.4-10.4-18.4v-0.8L744 745.6v41.6h0.8c7.2 3.2 11.2 10.4 11.2 18.4 0 12.8-9.6 22.4-21.6 22.4zM152 575.2c-60.8 0-109.6-48.8-109.6-109.6V204.8c0-60.8 48.8-109.6 109.6-109.6h721.6c60.8 0 109.6 48.8 109.6 109.6v260.8c0 60.8-48.8 109.6-109.6 109.6H152z m-11.2-432c-28.8 0-52 24-52 54.4v278.4c0 29.6 23.2 54.4 52 54.4h743.2c28.8 0 52-24 52-54.4V197.6c0-29.6-23.2-54.4-52-54.4H140.8z m21.6 312c-10.4 0-19.2-8.8-19.2-19.2 0-10.4 8.8-19.2 19.2-19.2h682.4c10.4 0 19.2 8.8 19.2 19.2 0 10.4-8.8 19.2-19.2 19.2H162.4z m0-80.8c-10.4 0-19.2-8.8-19.2-19.2S152 336 162.4 336h682.4c10.4 0 19.2 8.8 19.2 19.2 0 10.4-8.8 19.2-19.2 19.2H162.4z"
-                                                    fill=""></path>
-                                            </g>
-                                        </svg>
-                                    </div>
-                                    <div class="control-text">
-                                        <div class="control-title">Điều hòa</div>
-                                    </div>
-                                </div>
-                                <div class="toggle-switch">
-                                    <button class="device-btn led-btn">LED 3</button>
-                                </div>
-                            </div>
-
-
-
-                        </div>
-                    </div>
-
-
-
-                    <div class="chart-container light-chart">
-                        <h3>Light Level History</h3>
-                        <canvas id="lightChart"></canvas>
-                    </div>
-                </div>
-            </section>
-        </div>
+        <!-- Charts Section -->
+        <section class="charts-grid">
+            <div class="chart-container">
+                <canvas id="combinedChart" width="800" height="400"></canvas>
+            </div>
+        </section>
     </div>
+</div>
 
-    <script src="script.js"></script>
+<script>// Initialize WebSocket connection
+let stompClient = null;
+const socket = new SockJS('/ws');
+stompClient = Stomp.over(socket);
+
+// Common chart options
+const commonChartOptions = {
+    responsive: true,
+    animation: {
+        duration: 1000,
+        easing: 'easeInOutQuart'
+    },
+    plugins: {
+        legend: {
+            display: true,
+            position: 'top'
+        },
+        tooltip: {
+            backgroundColor: 'rgba(255,255,255,0.9)',
+            titleColor: '#1a2035',
+            bodyColor: '#666',
+            borderColor: 'rgba(0,0,0,0.1)',
+            borderWidth: 1,
+            padding: 12,
+            displayColors: true
+        }
+    },
+    interaction: {
+        intersect: false,
+        mode: 'index'
+    }
+};
+
+// Combined Chart Configuration
+const combinedConfig = {
+    type: 'line',
+    data: {
+        labels: [],
+        datasets: [
+            {
+                label: 'Nhiệt độ (°C)',
+                borderColor: '#ff6b6b',
+                backgroundColor: 'rgba(255, 107, 107, 0.1)',
+                data: [],
+                yAxisID: 'y',
+                fill: false,
+                tension: 0.4,
+                borderWidth: 2,
+                pointRadius: 4,
+                pointBackgroundColor: '#ff6b6b'
+            },
+            {
+                label: 'Độ ẩm (%)',
+                borderColor: '#4dabf7',
+                backgroundColor: 'rgba(77, 171, 247, 0.1)',
+                data: [],
+                yAxisID: 'y1',
+                fill: false,
+                tension: 0.4,
+                borderWidth: 2,
+                pointRadius: 4,
+                pointBackgroundColor: '#4dabf7'
+            },
+            {
+                label: 'Ánh sáng (lux)',
+                borderColor: '#ffd43b',
+                backgroundColor: 'rgba(255, 212, 59, 0.1)',
+                data: [],
+                yAxisID: 'y2',
+                fill: false,
+                tension: 0.4,
+                borderWidth: 2,
+                pointRadius: 4,
+                pointBackgroundColor: '#ffd43b'
+            }
+        ]
+    },
+    options: {
+        ...commonChartOptions,
+        scales: {
+            x: {
+                display: true,
+                grid: {
+                    display: false
+                },
+                title: {
+                    display: true,
+                    text: 'Thời gian',
+                    font: {
+                        size: 14,
+                        weight: 'bold'
+                    }
+                }
+            },
+            y: {
+                type: 'linear',
+                display: true,
+                position: 'left',
+                title: {
+                    display: true,
+                    text: 'Nhiệt độ (°C)',
+                    font: {
+                        size: 12,
+                        weight: 'bold'
+                    },
+                    color: '#ff6b6b'
+                },
+                grid: {
+                    color: 'rgba(255, 107, 107, 0.1)'
+                },
+                ticks: {
+                    color: '#ff6b6b'
+                }
+            },
+            y1: {
+                type: 'linear',
+                display: true,
+                position: 'right',
+                title: {
+                    display: true,
+                    text: 'Độ ẩm (%)',
+                    font: {
+                        size: 12,
+                        weight: 'bold'
+                    },
+                    color: '#4dabf7'
+                },
+                grid: {
+                    drawOnChartArea: false
+                },
+                ticks: {
+                    color: '#4dabf7'
+                }
+            },
+            y2: {
+                type: 'linear',
+                display: false,
+                position: 'right',
+                title: {
+                    display: true,
+                    text: 'Ánh sáng (lux)',
+                    font: {
+                        size: 12,
+                        weight: 'bold'
+                    },
+                    color: '#ffd43b'
+                },
+                ticks: {
+                    color: '#ffd43b'
+                }
+            }
+        }
+    }
+};
+
+// Initialize combined chart
+const combinedChart = new Chart(
+    document.getElementById('combinedChart'),
+    combinedConfig
+);
+
+// Connect to WebSocket
+stompClient.connect({}, function (frame) {
+    console.log('Connected to WebSocket');
+
+    // Subscribe to sensor data topic
+    stompClient.subscribe('/topic/sensor-data', function (message) {
+        const data = JSON.parse(message.body);
+        updateDashboard(data);
+    });
+
+    // Initialize LED controls
+    initializeLEDControls();
+});
+
+function updateLEDButtonStatus(ledText, isOn) {
+    // Find button by text content
+    const buttons = document.querySelectorAll('.device-btn');
+    let targetButton = null;
+
+    buttons.forEach(button => {
+        if (button.textContent.trim() === ledText) {
+            targetButton = button;
+        }
+    });
+
+    if (targetButton) {
+        // Remove all LED state classes
+        targetButton.classList.remove('led-on', 'led-off', 'led-connecting');
+
+        // Add appropriate state class
+        if (isOn) {
+            targetButton.classList.add('led-on');
+        } else {
+            targetButton.classList.add('led-off');
+        }
+    }
+}
+
+function setLEDButtonConnecting(ledText) {
+    const buttons = document.querySelectorAll('.device-btn');
+    let targetButton = null;
+
+    buttons.forEach(button => {
+        if (button.textContent.trim() === ledText) {
+            targetButton = button;
+        }
+    });
+
+    if (targetButton) {
+        targetButton.classList.remove('led-on', 'led-off');
+        targetButton.classList.add('led-connecting');
+    }
+}
+
+function updateDashboard(data) {
+    // Cập nhật giá trị sensor và thanh progress
+    updateSensorDisplay('temperature', data.temperature, 50);
+    updateSensorDisplay('humidity', data.humidity, 100);
+    updateSensorDisplay('light', data.light, 1000);
+
+    // Update combined chart
+    const currentTime = new Date().toLocaleTimeString();
+
+    // Limit data points to 30 for performance
+    if (combinedChart.data.labels.length > 30) {
+        combinedChart.data.labels.shift();
+        combinedChart.data.datasets[0].data.shift(); // temperature
+        combinedChart.data.datasets[1].data.shift(); // humidity
+        combinedChart.data.datasets[2].data.shift(); // light
+    }
+
+    // Add new data points
+    combinedChart.data.labels.push(currentTime);
+    combinedChart.data.datasets[0].data.push(data.temperature);
+    combinedChart.data.datasets[1].data.push(data.humidity);
+    combinedChart.data.datasets[2].data.push(data.light);
+
+    // Update chart with animation disabled for better performance
+    combinedChart.update('none');
+}
+
+function updateSensorDisplay(type, value, maxValue) {
+    // Cập nhật giá trị
+    document.querySelector(`.sensor-circle.${type} .sensor-value`).textContent =
+        type === 'light' ? Math.round(value) : value.toFixed(1);
+
+    // Cập nhật progress circle
+    const percentage = (value / maxValue) * 100;
+    const sensorCircle = document.querySelector(`.sensor-circle.${type}`);
+    sensorCircle.style.setProperty('--progress', `${Math.min(percentage, 100)}%`);
+}
+
+function initializeLEDControls() {
+    const ledButtons = document.querySelectorAll('.device-btn');
+    const ledStates = {
+        'LED 1': false,
+        'LED 2': false,
+        'LED 3': false
+    };
+
+    console.log('Initializing LED controls...');
+
+    // Subscribe to LED status updates from server
+    stompClient.subscribe('/topic/led-status', function (message) {
+        console.log('Received LED status update:', message.body);
+        const status = JSON.parse(message.body);
+
+        // Update the corresponding LED button based on the LED number
+        const ledText = `LED ${status.ledNumber}`;
+        updateLEDButtonStatus(ledText, status.stateOn);
+        ledStates[ledText] = status.stateOn;
+    });
+
+    ledButtons.forEach(button => {
+        const buttonText = button.textContent.trim();
+        console.log('Setting up button:', buttonText);
+
+        if (buttonText !== 'All LEDs') {
+            button.addEventListener('click', function () {
+                const currentState = ledStates[buttonText] || false;
+                const newState = !currentState;
+                console.log(`Clicking ${buttonText}: ${currentState} -> ${newState}`);
+
+                // Show connecting state immediately
+                setLEDButtonConnecting(buttonText);
+
+                const message = {
+                    deviceId: buttonText, // Send "LED 1", "LED 2", "LED 3"
+                    state: newState
+                };
+
+                try {
+                    // Send control command to server
+                    stompClient.send("/app/led-control", {}, JSON.stringify(message));
+                    console.log('Sent LED control message:', message);
+
+                    // Update state optimistically after a short delay
+                    setTimeout(() => {
+                        updateLEDButtonStatus(buttonText, newState);
+                        ledStates[buttonText] = newState;
+                    }, 500);
+                } catch (error) {
+                    console.error('Failed to send LED control message:', error);
+                    // Revert to previous state on error
+                    updateLEDButtonStatus(buttonText, currentState);
+                }
+            });
+        } else {
+            // Handle All LEDs button
+            button.addEventListener('click', function () {
+                const allCurrentlyOn = Object.values(ledStates).every(state => state);
+                const newState = !allCurrentlyOn;
+                console.log(`Clicking All LEDs: all currently ${allCurrentlyOn ? 'ON' : 'OFF'} -> ${newState ? 'ON' : 'OFF'}`);
+
+                // Show connecting state for all LEDs
+                Object.keys(ledStates).forEach(ledText => {
+                    setLEDButtonConnecting(ledText);
+                });
+
+                try {
+                    // Send control command for all LEDs
+                    const message = {
+                        deviceId: 'all',
+                        state: newState
+                    };
+
+                    stompClient.send("/app/led-control", {}, JSON.stringify(message));
+                    console.log('Sent All LEDs control message:', message);
+
+                    // Update all LED button states after a short delay
+                    setTimeout(() => {
+                        Object.keys(ledStates).forEach(ledText => {
+                            updateLEDButtonStatus(ledText, newState);
+                            ledStates[ledText] = newState;
+                        });
+                    }, 500);
+                } catch (error) {
+                    console.error('Failed to send All LEDs control message:', error);
+                    // Revert to previous states on error
+                    Object.keys(ledStates).forEach(ledText => {
+                        updateLEDButtonStatus(ledText, ledStates[ledText]);
+                    });
+                }
+            });
+        }
+    });
+
+    // Initialize all LED buttons to OFF state
+    Object.keys(ledStates).forEach(ledText => {
+        updateLEDButtonStatus(ledText, false);
+    });
+
+    console.log('LED controls initialized with states:', ledStates);
+}
+
+function updateLEDStatus(ledId, isOn) {
+    const statusElement = document.getElementById(`${ledId}-status`);
+    const ledIcon = statusElement.parentElement.parentElement.querySelector('.led-icon');
+
+    if (isOn) {
+        statusElement.textContent = 'ON';
+        statusElement.classList.add('on');
+        statusElement.classList.remove('off');
+        ledIcon.style.opacity = '1';
+    } else {
+        statusElement.textContent = 'OFF';
+        statusElement.classList.add('off');
+        statusElement.classList.remove('on');
+        ledIcon.style.opacity = '0.5';
+    }
+}
+
+// Handle WebSocket errors and reconnection
+socket.onclose = function () {
+    console.log('WebSocket connection closed');
+    setTimeout(function () {
+        console.log('Attempting to reconnect...');
+        socket = new SockJS('/ws');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            console.log('Reconnected to WebSocket');
+            stompClient.subscribe('/topic/sensor-data', function (message) {
+                const data = JSON.parse(message.body);
+                updateDashboard(data);
+            });
+        });
+    }, 2000);
+};</script>
 </body>
 
 </html>

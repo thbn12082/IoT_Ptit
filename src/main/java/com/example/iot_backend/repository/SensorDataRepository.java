@@ -1,5 +1,6 @@
 package com.example.iot_backend.repository;
 
+import com.example.iot_backend.model.LedEvent;
 import com.example.iot_backend.model.SensorData;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,4 +23,6 @@ public interface SensorDataRepository extends JpaRepository<SensorData, Long> {
     // Tìm dữ liệu trong 24h gần nhất
     @Query("SELECT s FROM SensorData s WHERE s.createdAt >= :since ORDER BY s.createdAt DESC")
     List<SensorData> findRecentData(@Param("since") LocalDateTime since);
+
+    List<SensorData> findAllByOrderByCreatedAtDesc();
 }

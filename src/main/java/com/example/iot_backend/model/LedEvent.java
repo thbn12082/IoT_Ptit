@@ -13,16 +13,18 @@ public class LedEvent {
 
     @Column(name = "led_number", nullable = false)
     private Integer ledNumber;
-
+/// ///////////////////////////////////////////////////////////
     public static final String STATE_ON = "ON";
     public static final String STATE_OFF = "OFF";
 
     @Column(name = "state_on", nullable = false)
     private String state;
 
+//    Chức năng: Chuyển đổi giữa boolean và string representation cho trạng thái LED, giúp dễ dàng lưu trữ và hiển thị.
+
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
-
+//    Chức năng: Tự động set thời gian tạo khi entity được persist vào database.
     // Getters and Setters
     public Long getId() {
         return id;
@@ -63,7 +65,7 @@ public class LedEvent {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
-
+//Tự động set thời gian tạo khi entity được persist vào database.
     @PrePersist
     protected void onCreate() {
         if (createdAt == null) {

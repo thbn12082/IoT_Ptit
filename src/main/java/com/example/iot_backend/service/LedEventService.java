@@ -25,13 +25,18 @@ public class LedEventService {
         event.setCreatedAt(LocalDateTime.now());
         return repository.save(event);
     }
+//    Ghi lại mỗi lần LED được điều khiển
 
     public List<LedEvent> getRecentEvents() {
-        return repository.findTop50ByOrderByCreatedAtDesc();
-    }
+//dùng cái này nếu chỉ muốn lấy 50 cái gần nhất
+//        return repository.findTop50ByOrderByCreatedAtDesc();
 
+        // dùng cái này khi muốn lấy tất cả lịch sử hoạt ộng của đèn và thứ tự mơ nhất đến cũ nhất
+        return repository.findAllByOrderByCreatedAtDesc();
+    }
+//lấy lịch sử hoạt động của tất cả led gần đây đén lâu rồi
     public List<LedEvent> getEventsByLed(int ledNumber) {
         return repository.findByLedNumberOrderByCreatedAtDesc(ledNumber);
     }
-
+// lấy lịch sử của led được chỉ định
 }

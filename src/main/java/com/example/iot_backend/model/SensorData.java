@@ -29,12 +29,12 @@ public class SensorData {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    // Default constructor
+/// ///////////////////////////////////////////////////////////////////////////////////// tạo constructor tự động cập nhật thời gian khi khởi tạo
     public SensorData() {
         this.createdAt = LocalDateTime.now();
     }
 
-    // Constructor với parameters
+
     public SensorData(Double temperature, Double humidity, Integer lightLevel, Integer uptime) {
         this.temperature = temperature;
         this.humidity = humidity;
@@ -42,6 +42,10 @@ public class SensorData {
         this.uptime = uptime;
         this.createdAt = LocalDateTime.now();
     }
+//    Chức năng: Tự động set timestamp khi tạo entity mới, đảm bảo mọi sensor reading đều có thời gian chính xác.
+
+
+
 
     // Getters and Setters
     public Long getId() {

@@ -10,13 +10,14 @@ import java.util.List;
 @Repository
 public interface LedEventRepository extends JpaRepository<LedEvent, Long> {
 
-    // Get latest events by LED number
+    //Lấy lịch sử điều khiển của một LED cụ thể, sắp xếp giảm dần
     List<LedEvent> findByLedNumberOrderByCreatedAtDesc(Integer ledNumber);
 
-    // Get latest state for a specific LED
+    // Tìm trạng thái hiện tại của LED
     @Query("SELECT e FROM LedEvent e WHERE e.ledNumber = :ledNumber ORDER BY e.createdAt DESC")
     List<LedEvent> findLatestLedState(@Param("ledNumber") int ledNumber);
 
-    // Get recent events
+    //Lấy 50 events gần nhất của tất cả LEDs
     List<LedEvent> findTop50ByOrderByCreatedAtDesc();
+    List<LedEvent> findAllByOrderByCreatedAtDesc();
 }
