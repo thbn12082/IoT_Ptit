@@ -1,163 +1,96 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Action History</title>
+    <title>Action History - IoT Dashboard</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
-        .page-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 1rem
-        }
-
-        .page-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: #1a2035
-        }
-
-        .toolbar {
-            display: flex;
-            gap: .75rem;
-            align-items: center
-        }
-
-        .select,
-        .input,
-        .button {
-            height: 36px;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            background: #fff
-        }
-
-        .input {
-            padding: 0 .75rem;
-            width: 320px
-        }
-
-        .select {
-            padding: 0 .5rem
-        }
-
-        .button {
-            padding: 0 12px;
-            background: #2563eb;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            border-radius: 8px
-        }
-
-        .button:disabled {
-            opacity: .6;
-            cursor: not-allowed
-        }
-
-        .badge {
-            padding: 2px 8px;
-            border-radius: 999px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .badge-on {
-            background: #dcfce7;
-            color: #166534
-        }
-
-        .badge-off {
-            background: #fee2e2;
-            color: #991b1b
-        }
-
-        .device-chip {
-            padding: 2px 8px;
-            border-radius: 999px;
-            font-size: 12px;
-            background: #eef2ff;
-            color: #3730a3;
-            font-weight: 600
-        }
-
-        @media (max-width:768px) {
-            .input {
-                width: 180px
-            }
-
-            .toolbar {
-                flex-wrap: wrap
-            }
-        }
-    </style>
 </head>
-
 <body>
-    <div class="navbar" style="background-color: rgb(83, 48, 236);">
-        <a href="index.html" style="color: black;">Dashboard</a>
-        <a href="data-sensor.html" style="color: black;">Data Sensor</a>
-        <a href="action-history.html" class="active" style="color: black;">Action History</a>
-        <a href="profile.html" style="color: black;">Profile</a>
+<!-- Navigation -->
+<nav class="navbar">
+    <div class="nav-container">
+
+        <div class="nav-links">
+            <a href="/" class="nav-link">Dashboard</a>
+            <a href="/data-sensor.html" class="nav-link">Data Sensor</a>
+            <a href="/action-history.html" class="nav-link active">Action History</a>
+            <a href="/profile.html" class="nav-link">Profile</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1 class="page-title">Lịch sử hoạt động</h1>
+        <div class="search-bar">
+            <!-- FIXED: Only 3 devices with proper names -->
+            <select id="deviceFilter" class="search-select">
+                <option value="all" selected>Tất cả</option>
+                <option value="1">Đèn (LED 1)</option>
+                <option value="2">Quạt (LED 2)</option>
+                <option value="3">Điều hòa (LED 3)</option>
+            </select>
+
+            <input id="search" class="search-input" placeholder="Search events, device name, state">
+
+            <input id="timeFilter" class="search-input time-input" placeholder="Thời gian/Ngày (HH:mm, HH:mm ss., d/M/yyyy)">
+
+            <button id="searchBtn" class="search-btn primary">Tìm kiếm</button>
+            <button id="clearBtn" class="search-btn secondary">Clear</button>
+        </div>
     </div>
 
-    <div class="container">
-        <div class="page-header">
-            <div class="page-title">Lịch sử hành động</div>
-            <div class="toolbar">
-                <select id="deviceFilter" class="select">
-                    <option value="all">Tất cả</option>
-                    <option value="1">Đèn</option>
-                    <option value="2">Quạt</option>
-                    <option value="3">Điều hòa</option>
-                </select>
-                <input id="timeFilter" class="input" placeholder="Thời gian (hh:mm:ss dd/mm/yyyy)">
-                <button id="searchBtn" class="button">Tìm kiếm</button>
-            </div>
-        </div>
 
-        <div class="table-wrap">
-            <table class="table" id="historyTable">
+
+    <!-- Data Card -->
+    <div class="data-card">
+        <div class="table-container">
+            <table class="data-table">
                 <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Thiết bị</th>
-                        <th>Hành động</th>
-                        <th>Thời gian</th>
-                    </tr>
+                <tr>
+                    <th class="th-id">ID</th>
+                    <th class="th-device">Thiết bị</th>
+                    <th class="th-action">Hành động</th>
+                    <th class="th-time">Thời gian</th>
+                </tr>
                 </thead>
                 <tbody id="tableBody">
-                    <tr>
-                        <td colspan="4" class="muted">Loading...</td>
-                    </tr>
+                <tr>
+                    <td colspan="4" class="loading-cell">
+                        <div class="loading-spinner"></div>
+                        <span>Đang tải dữ liệu...</span>
+                    </td>
+                </tr>
                 </tbody>
             </table>
-            <div class="table-footer">
-                <div><span id="rangeText" class="muted"></span></div>
-                <div class="toolbar">
-                    <span class="muted">Hiển thị</span>
-                    <select id="pageSize" class="select">
+        </div>
+
+        <!-- Table Footer -->
+        <div class="table-footer">
+            <div class="result-info">
+                <span class="range-text">Đang tải...</span>
+            </div>
+            <div class="table-controls">
+                <div class="page-size-control">
+                    <span>Hiển thị</span>
+                    <select id="pageSizeSelect" class="page-size-select">
+                        <option value="5">5</option>
                         <option value="10" selected>10</option>
-                        <option value="20">20</option>
+                        <option value="25">25</option>
                         <option value="50">50</option>
                     </select>
-                    <span class="muted">kết quả</span>
+                    <span>kết quả</span>
                 </div>
-                <div class="pagination" id="pagination"></div>
+                <div class="pagination" id="pagination">
+                    <!-- Pagination buttons will be here -->
+                </div>
             </div>
         </div>
     </div>
+</div>
 
-    <script src="action-history.js"></script>
-    <script>
-        document.querySelectorAll('.navbar a').forEach(a => { if (a.getAttribute('href') === 'action-history.html') { a.classList.add('active'); } });
-    </script>
+<script src="action-history-fixed.js"></script>
 </body>
-
 </html>

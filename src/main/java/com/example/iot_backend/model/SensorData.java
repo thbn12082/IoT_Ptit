@@ -1,51 +1,36 @@
+// Đảm bảo SensorData entity đúng với database structure
 package com.example.iot_backend.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "sensor_data")
+@Table(name = "sensor_data")  // Correct table name
 public class SensorData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
     @Column(name = "temperature")
     private Double temperature;
 
-    @NotNull
     @Column(name = "humidity")
     private Double humidity;
 
-    @Column(name = "light_level")
+    @Column(name = "light_level")  // Check if this matches your DB column
     private Integer lightLevel;
-
-    @Column(name = "uptime")
-    private Integer uptime;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-/// ///////////////////////////////////////////////////////////////////////////////////// tạo constructor tự động cập nhật thời gian khi khởi tạo
+    @Column(name = "uptime")  // If you have this field
+    private Integer uptime;
+
+    // Constructors
     public SensorData() {
         this.createdAt = LocalDateTime.now();
     }
-
-
-    public SensorData(Double temperature, Double humidity, Integer lightLevel, Integer uptime) {
-        this.temperature = temperature;
-        this.humidity = humidity;
-        this.lightLevel = lightLevel;
-        this.uptime = uptime;
-        this.createdAt = LocalDateTime.now();
-    }
-//    Chức năng: Tự động set timestamp khi tạo entity mới, đảm bảo mọi sensor reading đều có thời gian chính xác.
-
-
-
 
     // Getters and Setters
     public Long getId() {
@@ -80,14 +65,6 @@ public class SensorData {
         this.lightLevel = lightLevel;
     }
 
-    public Integer getUptime() {
-        return uptime;
-    }
-
-    public void setUptime(Integer uptime) {
-        this.uptime = uptime;
-    }
-
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -96,14 +73,23 @@ public class SensorData {
         this.createdAt = createdAt;
     }
 
+    public Integer getUptime() {
+        return uptime;
+    }
+
+    public void setUptime(Integer uptime) {
+        this.uptime = uptime;
+    }
+
     @Override
     public String toString() {
         return "SensorData{" +
                 "id=" + id +
                 ", temperature=" + temperature +
                 ", humidity=" + humidity +
-                ", uptime=" + uptime +
+                ", lightLevel=" + lightLevel +
                 ", createdAt=" + createdAt +
+                ", uptime=" + uptime +
                 '}';
     }
 }

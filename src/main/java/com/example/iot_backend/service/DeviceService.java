@@ -40,13 +40,13 @@ public class DeviceService {
     }
 
     // Get LED state
-    public Optional<Boolean> getLedState(int ledNumber) {
-        List<LedEvent> events = ledEventRepository.findLatestLedState(ledNumber);
-        if (events.isEmpty()) {
-            return Optional.empty();
-        }
-        return Optional.of(events.get(0).getStateOn());
-    }
+//    public Optional<Boolean> getLedState(int ledNumber) {
+//        List<LedEvent> events = ledEventRepository.findLatestLedState(ledNumber);
+//        if (events.isEmpty()) {
+//            return Optional.empty();
+//        }
+//        return Optional.of(events.get(0).getStateOn());
+//    }
 
     // Get recent LED events
     public List<LedEvent> getRecentEvents() {

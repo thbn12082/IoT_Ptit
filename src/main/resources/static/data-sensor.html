@@ -1,221 +1,97 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Sensor</title>
+    <title>Data Sensor - IoT Dashboard</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
-        .page-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 1rem
-        }
-
-        .page-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: #1a2035
-        }
-
-        .toolbar {
-            display: flex;
-            gap: .75rem;
-            align-items: center
-        }
-
-        .select,
-        .input,
-        .button {
-            height: 36px;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            background: #fff
-        }
-
-        .input {
-            padding: 0 .75rem;
-            width: 320px
-        }
-
-        .select {
-            padding: 0 .5rem
-        }
-
-        .button {
-            padding: 0 12px;
-            background: #2563eb;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            border-radius: 8px
-        }
-
-        .button:disabled {
-            opacity: .6;
-            cursor: not-allowed
-        }
-
-        .table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            background: #fff;
-            border: 1px solid rgba(0, 0, 0, .05);
-            border-radius: 12px;
-            overflow: hidden
-        }
-
-        .table th,
-        .table td {
-            padding: 12px 14px;
-            border-bottom: 1px solid #f1f5f9;
-            font-size: 14px
-        }
-
-        .table th {
-            background: #f8fafc;
-            text-align: left;
-            color: #475569;
-            font-weight: 600
-        }
-
-        .table tr:hover td {
-            background: #fafafa
-        }
-
-        .muted {
-            color: #64748b
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 9999px;
-            background: #ef4444;
-            display: inline-block;
-            margin-right: 8px
-        }
-
-        .table-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 12px
-        }
-
-        .pagination {
-            display: flex;
-            gap: 6px
-        }
-
-        .page-btn {
-            width: 32px;
-            height: 32px;
-            border: 1px solid #e5e7eb;
-            background: #fff;
-            border-radius: 6px;
-            cursor: pointer
-        }
-
-        .page-btn.active {
-            background: #1f2937;
-            color: #fff;
-            border-color: #1f2937
-        }
-
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            border: 0
-        }
-
-        @media (max-width:768px) {
-            .input {
-                width: 180px
-            }
-
-            .toolbar {
-                flex-wrap: wrap
-            }
-        }
-    </style>
 </head>
-
 <body>
-    <div class="navbar" style="background-color: rgb(83, 48, 236);">
-        <a href="index.html" style="color: black;">Dashboard</a>
-        <a href="data-sensor.html" class="active" style="color: black;">Data Sensor</a>
-        <a href="action-history.html" style="color: black;">Action History</a>
-        <a href="profile.html" style="color: black;">Profile</a>
+<!-- FIXED: Navigation with proper structure -->
+<nav class="navbar">
+    <div class="nav-container">
+
+        <div class="nav-links">
+            <a href="/" class="nav-link">Dashboard</a>
+            <a href="/data-sensor.html" class="nav-link active">Data Sensor</a>
+            <a href="/action-history.html" class="nav-link">Action History</a>
+            <a href="/profile.html" class="nav-link">Profile</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1 class="page-title">Data Sensor</h1>
+        <div class="search-bar">
+            <select id="searchType" class="search-select">
+                <option value="Auto Detect" selected>Auto Detect</option>
+                <option value="ID">ID</option>
+                <option value="Temperature (°C)">Temperature (°C)</option>
+                <option value="Humidity (%)">Humidity (%)</option>
+                <option value="Light Level">Light Level</option>
+            </select>
+
+            <input id="search" class="search-input" placeholder="Search ID, Temperature, Humidity, Light">
+
+            <input id="timeFilter" class="search-input time-input" placeholder="Time/Date (HH:mm, d/M/yyyy)">
+
+            <button id="searchBtn" class="search-btn primary">Tìm kiếm</button>
+            <button id="clearBtn" class="search-btn secondary">Clear</button>
+        </div>
     </div>
 
-    <div class="container">
-        <div class="page-header">
-            <div class="page-title">Data Sensor</div>
-            <div class="toolbar">
-                <label class="sr-only" for="filter">Filter</label>
-                <select id="filter" class="select">
-                    <option value="all">Tất cả</option>
-                    <option value="temperature">Temperature</option>
-                    <option value="humidity">Humidity</option>
-                    <option value="lightLevel">Light</option>
-                    <option value="createdAt">Time</option>
-                </select>
-                <label class="sr-only" for="search">Search</label>
-                <input id="search" class="input" placeholder="Search (ID, Temperature, Humidity, Light, or Time)" />
-                <button id="searchBtn" class="button">Search</button>
-            </div>
-        </div>
 
-        <div class="table-wrap">
-            <table class="table" id="sensorTable">
+
+    <!-- Data Table Card -->
+    <div class="data-card">
+        <div class="table-container">
+            <table class="data-table">
                 <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Temperature (°C)</th>
-                        <th>Humidity (%)</th>
-                        <th>Light (nits)</th>
-                        <th>Time</th>
-                    </tr>
+                <tr>
+                    <th class="th-id">ID</th>
+                    <th class="th-temp">Temperature (°C)</th>
+                    <th class="th-humidity">Humidity (%)</th>
+                    <th class="th-light">Light (units)</th>
+                    <th class="th-time">Time</th>
+                </tr>
                 </thead>
                 <tbody id="tableBody">
-                    <tr>
-                        <td colspan="5" class="muted">Loading...</td>
-                    </tr>
+                <tr>
+                    <td colspan="5" class="loading-cell">
+                        <div class="loading-spinner"></div>
+                        <span>Đang tải dữ liệu...</span>
+                    </td>
+                </tr>
                 </tbody>
             </table>
-            <div class="table-footer">
-                <div><span id="rangeText" class="muted"></span></div>
-                <div class="toolbar">
-                    <span class="muted">Hiển thị</span>
-                    <select id="pageSize" class="select">
+        </div>
+
+        <!-- Table Footer -->
+        <div class="table-footer">
+            <div class="result-info">
+                <span class="range-text">Đang tải...</span>
+            </div>
+            <div class="table-controls">
+                <div class="page-size-control">
+                    <span>Hiển thị</span>
+                    <select id="pageSizeSelect" class="page-size-select">
+                        <option value="5">5</option>
                         <option value="10" selected>10</option>
-                        <option value="20">20</option>
+                        <option value="25">25</option>
                         <option value="50">50</option>
                     </select>
-                    <span class="muted">kết quả</span>
+                    <span>kết quả</span>
                 </div>
-                <div class="pagination" id="pagination"></div>
+                <div class="pagination" id="pagination">
+                    <!-- Pagination buttons will be here -->
+                </div>
             </div>
         </div>
     </div>
+</div>
 
-    <script src="data-sensor.js"></script>
-    <script>
-        // mark active nav if loaded directly
-        document.querySelectorAll('.navbar a').forEach(a => { if (a.getAttribute('href') === 'data-sensor.html') { a.classList.add('active'); } });
-    </script>
+<script src="data-sensor-fixed.js"></script>
 </body>
-
 </html>

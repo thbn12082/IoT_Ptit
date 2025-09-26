@@ -4,27 +4,33 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "led_events")
+@Table(name = "led_events")  // Correct table name
 public class LedEvent {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "led_number", nullable = false)
+    @Column(name = "led_number")  // Correct column name
     private Integer ledNumber;
-/// ///////////////////////////////////////////////////////////
-    public static final String STATE_ON = "ON";
-    public static final String STATE_OFF = "OFF";
 
-    @Column(name = "state_on", nullable = false)
-    private String state;
+    @Column(name = "state_on")  // Correct column name
+    private String state;  // Will store "ON" or "OFF"
 
-//    Chức năng: Chuyển đổi giữa boolean và string representation cho trạng thái LED, giúp dễ dàng lưu trữ và hiển thị.
+    @Column(name = "created_at")  // Correct column name
+    private LocalDateTime createdAt;
 
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
-//    Chức năng: Tự động set thời gian tạo khi entity được persist vào database.
+    // Constructors
+    public LedEvent() {
+        this.createdAt = LocalDateTime.now();
+    }
+
+    public LedEvent(Integer ledNumber, String state) {
+        this.ledNumber = ledNumber;
+        this.state = state;
+        this.createdAt = LocalDateTime.now();
+    }
+
     // Getters and Setters
     public Long getId() {
         return id;
@@ -50,12 +56,13 @@ public class LedEvent {
         this.state = state;
     }
 
-    public void setStateOn(Boolean stateOn) {
-        this.state = stateOn ? STATE_ON : STATE_OFF;
+    // Helper methods for boolean state
+    public Boolean getStateOn() {
+        return "ON".equals(this.state);
     }
 
-    public Boolean getStateOn() {
-        return STATE_ON.equals(this.state);
+    public void setStateOn(Boolean stateOn) {
+        this.state = (stateOn != null && stateOn) ? "ON" : "OFF";
     }
 
     public LocalDateTime getCreatedAt() {
@@ -65,11 +72,14 @@ public class LedEvent {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
-//Tự động set thời gian tạo khi entity được persist vào database.
-    @PrePersist
-    protected void onCreate() {
-        if (createdAt == null) {
-            createdAt = LocalDateTime.now();
-        }
+
+    @Override
+    public String toString() {
+        return "LedEvent{" +
+                "id=" + id +
+                ", ledNumber=" + ledNumber +
+                ", state='" + state + '\'' +
+                ", createdAt=" + createdAt +
+                '}';
     }
 }
